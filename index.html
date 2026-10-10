@@ -1,35 +1,540 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>南头古城｜定制路线</title>
-<meta name="description" content="为南头古城定制属于自己的游览路线。点击景点、按类别筛选，并创建个人路线。">
-<meta name="theme-color" content="#eeeae2">
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>南头古城路线定制 - 演示Demo</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#eeeae2;font-family:Arial,"Microsoft YaHei",sans-serif;color:#333;overflow:hidden}#app{width:100vw;height:100vh;position:relative}#map{position:absolute;inset:0;background:#e8e3d9}#map:before{content:"南 头 古 城";position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);font-size:58px;letter-spacing:18px;color:#d4cec3;font-weight:700;pointer-events:none}#lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.edge{stroke:#aaa49a;stroke-width:3;fill:none}.routeEdge{stroke-width:5;fill:none}.node{position:absolute;width:38px;height:38px;border-radius:50%;border:3px solid white;box-shadow:0 3px 10px #0003;transform:translate(-50%,-50%);cursor:pointer;z-index:3}.node:hover{transform:translate(-50%,-50%) scale(1.18)}.node.added{background:#999!important;border-color:#777}.nodeLabel{position:absolute;transform:translate(-50%,22px);font-size:11px;white-space:nowrap;color:#555;pointer-events:none}.top{position:absolute;left:30px;top:25px;background:#fff;padding:14px 18px;border-radius:12px;box-shadow:0 5px 20px #0002;z-index:5}.top b{font-size:19px}.top small{display:block;margin-top:5px;color:#888}.controls{position:absolute;left:50%;bottom:92px;transform:translateX(-50%);display:flex;gap:7px;padding:9px;background:#ffffffdf;border-radius:15px;box-shadow:0 6px 25px #0002;z-index:10}.btn{border:0;padding:11px 10px;flex:1;min-width:0;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;background:#ddd8ce;color:#444}.active.study{background:#df554f;color:white}.active.photo{background:#55a66a;color:white}.active.food{background:#dfb73c;color:white}.active.shop{background:#548bd0;color:white}.my{position:absolute;right:20px;bottom:18px;z-index:12;background:#e68a45;color:#fff;border:0;border-radius:11px;padding:15px 23px;font-size:16px;font-weight:700;box-shadow:0 6px 20px #0003;cursor:pointer}#count{position:absolute;right:20px;bottom:72px;background:#fff;padding:8px 13px;border-radius:20px;color:#777;z-index:11;font-size:12px}.modal{position:absolute;inset:0;background:#0005;display:none;align-items:center;justify-content:center;z-index:30}.panel{width:min(560px,88vw);background:#faf9f6;border-radius:18px;padding:28px;box-shadow:0 20px 70px #0005;position:relative}.close{position:absolute;right:16px;top:12px;border:0;background:transparent;font-size:27px;cursor:pointer;color:#777}.dot{width:20px;height:20px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:8px}.panel h2{margin:10px 0}.panel p{line-height:1.8;color:#666}.addBtn{float:right;background:#e68a45;color:white;border:0;padding:11px 24px;border-radius:9px;font-weight:700;cursor:pointer}.back{position:absolute;left:28px;bottom:25px;z-index:12;border:0;background:#555;color:white;padding:13px 22px;border-radius:10px;cursor:pointer}@media(max-width:600px){.controls{width:calc(100% - 20px)}.btn{font-size:14px;padding:10px 4px}.my{padding:13px 22px;font-size:15px}.top{left:20px;right:20px}.top b{font-size:18px}.top small{font-size:13px}}.empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:25px 35px;border-radius:14px;color:#888;box-shadow:0 8px 30px #0002}
-@media(max-width:600px){#map:before{font-size:clamp(25px,7vw,42px);letter-spacing:clamp(5px,2vw,12px)}.node{width:32px;height:32px;border-width:2px}.nodeLabel{font-size:10px;max-width:105px;overflow:hidden;text-overflow:ellipsis}.panel{padding:24px 20px}.back{left:12px;bottom:12px;padding:11px 14px}.top{top:12px;left:12px;right:12px;padding:12px 14px}.controls{bottom:82px;gap:4px;padding:6px}.btn{font-size:13px;padding:10px 2px}.my{right:12px;bottom:12px;padding:12px 16px}#count{right:12px;bottom:66px}}
-</style></head><body><div id="app"><div id="map"></div><svg id="lines"></svg><div class="top"><b id="title">南头古城｜全部景点</b><small>点击圆点查看简介 · 灰色表示已加入</small></div><div class="controls"><button class="btn all active" data-cat="all">全部</button><button class="btn study" data-cat="study">研学</button><button class="btn photo" data-cat="photo">拍照</button><button class="btn food" data-cat="food">美食</button><button class="btn shop" data-cat="shop">购物</button></div><div id="count">已加入 0 个景点</div><button class="my" id="myBtn">我的线路 →</button><div class="modal" id="modal"><div class="panel"><button class="close" id="close">×</button><span class="dot" id="panelColor"></span><span id="panelCat"></span><h2 id="panelTitle"></h2><p id="panelText"></p><button class="addBtn" id="addBtn">＋ 加入我的线路</button><div style="clear:both"></div></div></div></div>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    background: #ede8df;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #333;
+    overflow: hidden;
+    user-select: none;
+  }
+  #app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: #eae4d8;
+  }
+
+  /* 水印底纹 */
+  .bg-watermark {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(38px, 9vw, 56px);
+    letter-spacing: 12px;
+    color: #dbd4c7;
+    font-weight: 800;
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  /* 1. 顶部提示条精简优化 */
+  .top-bar {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(92%, 460px);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .top-bar b {
+    font-size: 14px;
+    color: #2c2c2c;
+    font-weight: 700;
+  }
+  .top-bar small {
+    font-size: 11px;
+    color: #888;
+  }
+
+  /* 2. 地图安全显示区域（限制在上下UI中间，彻底解决遮挡） */
+  #map-viewport {
+    position: absolute;
+    top: 60px;
+    bottom: 136px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+  }
+  #lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .edge {
+    stroke: #b8b1a4;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-dasharray: 4 3;
+  }
+  .routeEdge {
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  /* 景点点位与标签 */
+  .node {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.15s ease;
+  }
+  .node:active {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  .node.added {
+    background: #9c9993 !important;
+    border-color: #e4e2dd !important;
+  }
+  .node.added::after {
+    content: "✓";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -54%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .nodeLabel {
+    position: absolute;
+    transform: translate(-50%, 18px);
+    font-size: 10px;
+    white-space: nowrap;
+    color: #555;
+    pointer-events: none;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  /* 3. 底部UI容器：两行布局 */
+  .bottom-dock {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(94%, 480px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  /* 4. 分类切换按钮行（带彩色方块UI） */
+  .controls {
+    display: flex;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(8px);
+    padding: 6px;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  }
+  .btn {
+    border: 0;
+    padding: 8px 4px;
+    flex: 1;
+    min-width: 0;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f1eeea;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+
+  /* 4. 颜色方块标识 */
+  .sq {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sq-all   { background: #7c776f; }
+  .sq-study { background: #df554f; }
+  .sq-photo { background: #4ca565; }
+  .sq-food  { background: #e09d1e; }
+  .sq-shop  { background: #4588d6; }
+
+  /* 选中态高亮 */
+  .btn.active {
+    color: #fff !important;
+  }
+  .btn.all.active   { background: #625d55; }
+  .btn.study.active { background: #df554f; }
+  .btn.photo.active { background: #4ca565; }
+  .btn.food.active  { background: #e09d1e; }
+  .btn.shop.active  { background: #4588d6; }
+  .btn.active .sq   { background: #fff; }
+
+  /* 底部第二行：左侧计数 + 右侧我的路线 */
+  .action-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #count {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px 10px;
+    border-radius: 12px;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  }
+  #count strong {
+    color: #e67d2e;
+    font-size: 15px;
+  }
+  .my {
+    flex: 1.2;
+    background: linear-gradient(135deg, #f08f43, #e57224);
+    color: #fff;
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(229, 114, 36, 0.35);
+    cursor: pointer;
+    text-align: center;
+  }
+  .my:active {
+    opacity: 0.9;
+  }
+
+  /* 弹窗与返回按钮 */
+  .modal {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    padding: 20px;
+  }
+  .panel {
+    width: 100%;
+    max-width: 360px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  .close {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    border: 0;
+    background: transparent;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .panel h3 {
+    margin: 10px 0 8px;
+    font-size: 18px;
+    color: #222;
+  }
+  .panel p {
+    line-height: 1.6;
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .addBtn {
+    width: 100%;
+    background: #e67d2e;
+    color: white;
+    border: 0;
+    padding: 11px 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .addBtn.remove {
+    background: #888;
+  }
+  .back-btn {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 12;
+    border: 0;
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    cursor: pointer;
+  }
+  .empty {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 24px 30px;
+    border-radius: 14px;
+    color: #666;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bg-watermark">南 头 古 城</div>
+
+  <!-- 1. 顶部提示条：紧凑轻量，不挡地图 -->
+  <div class="top-bar">
+    <b id="title">南头古城 · 全部景点</b>
+    <small>点击圆点加入路线</small>
+  </div>
+
+  <!-- 2. 地图安全视口：避开上下UI -->
+  <div id="map-viewport">
+    <svg id="lines"></svg>
+    <div id="nodes-layer"></div>
+  </div>
+
+  <!-- 3. 底部控制区：上一行是分类按钮，下一行是计数与路线按钮 -->
+  <div class="bottom-dock" id="bottomDock">
+    <!-- 4. 按钮均带对应颜色方块UI -->
+    <div class="controls">
+      <button class="btn all active" data-cat="all">
+        <span class="sq sq-all"></span>全部
+      </button>
+      <button class="btn study" data-cat="study">
+        <span class="sq sq-study"></span>研学
+      </button>
+      <button class="btn photo" data-cat="photo">
+        <span class="sq sq-photo"></span>拍照
+      </button>
+      <button class="btn food" data-cat="food">
+        <span class="sq sq-food"></span>美食
+      </button>
+      <button class="btn shop" data-cat="shop">
+        <span class="sq sq-shop"></span>购物
+      </button>
+    </div>
+
+    <div class="action-row">
+      <div id="count">已加入 <strong>0</strong> 个景点</div>
+      <button class="my" id="myBtn">我的线路 →</button>
+    </div>
+  </div>
+
+  <!-- 详情弹窗 -->
+  <div class="modal" id="modal">
+    <div class="panel">
+      <button class="close" id="close">×</button>
+      <span class="tag" id="panelTag"></span>
+      <h3 id="panelTitle"></h3>
+      <p id="panelText"></p>
+      <button class="addBtn" id="addBtn">＋ 加入我的线路</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const colors={study:"#df554f",photo:"#55a66a",food:"#dfb73c",shop:"#548bd0"},names={study:"研学",photo:"拍照",food:"美食",shop:"购物"};
-const spots=[
-["01","南城门","study",12,24],["02","东城门遗址","study",25,14],["03","新安县衙","study",39,23],["04","信国公文氏祠","study",52,15],["05","古城墙遗址","study",65,27],["06","南头古城博物馆","study",77,18],["07","历史文化街区","study",86,35],["08","古城广场","study",69,43],
-["09","骑楼街","photo",54,43],["10","特色墙面","photo",43,36],["11","老街巷","photo",30,43],["12","古建筑门楼","photo",20,55],["13","红砖小巷","photo",35,62],["14","街角花墙","photo",50,58],["15","文创街景","photo",67,61],["16","古城夜景点","photo",82,56],
-["17","特色面馆","food",14,72],["18","本地小吃店","food",27,79],["19","咖啡店","food",41,73],["20","甜品店","food",55,80],["21","茶饮店","food",68,72],["22","特色餐厅","food",80,78],["23","街边小食","food",91,68],["24","休闲餐吧","food",62,88],
-["25","文创店","shop",10,43],["26","手作店","shop",18,31],["27","设计杂货店","shop",31,28],["28","古城纪念品店","shop",46,20],["29","艺术商店","shop",59,31],["30","特色服饰店","shop",74,36],["31","生活方式店","shop",87,45],["32","创意市集","shop",78,63]];
-// 已选景点保存在当前浏览器中；部署后同一设备再次打开仍可保留。
-const STORAGE_KEY="nantou-route-selected-v1";
-let selected=new Set();
-try { selected = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")); } catch(e) { selected = new Set(); }
-let category="all",current=null,myMode=false;
-function saveSelected(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected])); } catch(e) {} }
-// 未来定位功能的坐标转换接口预留：自绘地图的 XY 坐标应以地图校准点/地理边界为依据，不能直接把经纬度当像素。
-// 示例：xPercent = (longitude - minLongitude) / (maxLongitude - minLongitude) * 100;
-//       yPercent = (maxLatitude - latitude) / (maxLatitude - minLatitude) * 100;
-// 如果自绘地图有透视、变形或非均匀比例，应使用多个校准点拟合转换关系。
-function line(a,b,color,cls){let l=document.createElementNS("http://www.w3.org/2000/svg","line");l.setAttribute("x1",a[3]+"%");l.setAttribute("y1",a[4]+"%");l.setAttribute("x2",b[3]+"%");l.setAttribute("y2",b[4]+"%");l.setAttribute("class",cls);l.style.stroke=color;document.getElementById("lines").appendChild(l)}
-function route(arr,color){for(let i=0;i<arr.length-1;i++)line(arr[i],arr[i+1],color,"routeEdge")}
-function node(s){let n=document.createElement("div");n.className="node"+(selected.has(s[0])&&!myMode?" added":"");n.style.left=s[3]+"%";n.style.top=s[4]+"%";n.style.background=colors[s[2]];n.onclick=()=>openSpot(s);document.getElementById("app").appendChild(n);let l=document.createElement("div");l.className="nodeLabel";l.textContent=s[0]+" "+s[1];l.style.left=s[3]+"%";l.style.top=s[4]+"%";document.getElementById("app").appendChild(l)}
-function render(){document.querySelectorAll(".node,.nodeLabel").forEach(e=>e.remove());document.getElementById("lines").innerHTML="";if(myMode){let a=spots.filter(s=>selected.has(s[0]));if(!a.length){document.getElementById("map").innerHTML='<div class="empty">还没有加入景点<br><small>返回地图选择你想去的地方</small></div>';return}route(a,"#e68a45");a.forEach(node);return}document.getElementById("map").innerHTML="";if(category==="all"){for(let i=0;i<spots.length-1;i++)line(spots[i],spots[i+1],"#aaa49a","edge")}else{route(spots.filter(s=>s[2]===category),colors[category])}spots.filter(s=>category==="all"||s[2]===category).forEach(node)}
-function openSpot(s){current=s;document.getElementById("panelColor").style.background=colors[s[2]];document.getElementById("panelCat").textContent=names[s[2]];document.getElementById("panelTitle").textContent=s[0]+" · "+s[1];document.getElementById("panelText").textContent="这里可以放入景点历史、特色内容、推荐停留时间等介绍。当前为演示文字，后续可替换成真实资料。";document.getElementById("addBtn").textContent=selected.has(s[0])?"✓ 已在我的线路":"＋ 加入我的线路";document.getElementById("modal").style.display="flex"}
-document.getElementById("close").onclick=()=>document.getElementById("modal").style.display="none";
-document.getElementById("addBtn").onclick=()=>{if(!current)return;selected.add(current[0]);saveSelected();document.getElementById("modal").style.display="none";update();render()};
-document.querySelectorAll(".btn").forEach(b=>b.onclick=()=>{category=b.dataset.cat;myMode=false;document.querySelectorAll(".btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById("title").textContent="南头古城｜"+(category==="all"?"全部景点":names[category]+"路线");render()});
-document.getElementById("myBtn").onclick=()=>{myMode=true;document.querySelector(".controls").style.display="none";document.getElementById("count").style.display="none";document.getElementById("myBtn").style.display="none";document.getElementById("title").textContent="我的线路";let b=document.createElement("button");b.className="back";b.textContent="← 返回景点地图";b.onclick=()=>{myMode=false;document.querySelector(".controls").style.display="flex";document.getElementById("count").style.display="block";document.getElementById("myBtn").style.display="block";b.remove();category="all";document.querySelectorAll(".btn").forEach(x=>x.classList.remove("active"));document.querySelector(".all").classList.add("active");document.getElementById("title").textContent="南头古城｜全部景点";render()};document.getElementById("app").appendChild(b);render()};
-function update(){document.getElementById("count").textContent="已加入 "+selected.size+" 个景点"}render();update();
-</script></body></html>
+const colors = { study: "#df554f", photo: "#4ca565", food: "#e09d1e", shop: "#4588d6" };
+const names = { study: "研学", photo: "拍照", food: "美食", shop: "购物" };
+
+const spots = [
+  ["01","南城门","study",12,24],["02","东城门遗址","study",25,14],["03","新安县衙","study",39,23],["04","信国公文氏祠","study",52,15],["05","古城墙遗址","study",65,27],["06","南头古城博物馆","study",77,18],["07","历史文化街区","study",86,35],["08","古城广场","study",69,43],
+  ["09","骑楼街","photo",54,43],["10","特色墙面","photo",43,36],["11","老街巷","photo",30,43],["12","古建筑门楼","photo",20,55],["13","红砖小巷","photo",35,62],["14","街角花墙","photo",50,58],["15","文创街景","photo",67,61],["16","古城夜景点","photo",82,56],
+  ["17","特色面馆","food",14,72],["18","本地小吃店","food",27,79],["19","咖啡店","food",41,73],["20","甜品店","food",55,80],["21","茶饮店","food",68,72],["22","特色餐厅","food",80,78],["23","街边小食","food",91,68],["24","休闲餐吧","food",62,88],
+  ["25","文创店","shop",10,43],["26","手作店","shop",18,31],["27","设计杂货店","shop",31,28],["28","古城纪念品店","shop",46,20],["29","艺术商店","shop",59,31],["30","特色服饰店","shop",74,36],["31","生活方式店","shop",87,45],["32","创意市集","shop",78,63]
+];
+
+let selected = new Set(), category = "all", current = null, myMode = false;
+
+function line(a, b, color, cls) {
+  let l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("x1", a[3] + "%");
+  l.setAttribute("y1", a[4] + "%");
+  l.setAttribute("x2", b[3] + "%");
+  l.setAttribute("y2", b[4] + "%");
+  l.setAttribute("class", cls);
+  l.style.stroke = color;
+  document.getElementById("lines").appendChild(l);
+}
+
+function route(arr, color) {
+  for (let i = 0; i < arr.length; i++) {
+    line(arr[i], arr[(i + 1) % arr.length], color, "routeEdge");
+  }
+}
+
+function node(s) {
+  let layer = document.getElementById("nodes-layer");
+  let n = document.createElement("div");
+  n.className = "node" + (selected.has(s[0]) && !myMode ? " added" : "");
+  n.style.left = s[3] + "%";
+  n.style.top = s[4] + "%";
+  n.style.background = colors[s[2]];
+  n.onclick = () => openSpot(s);
+  layer.appendChild(n);
+
+  let l = document.createElement("div");
+  l.className = "nodeLabel";
+  l.textContent = s[0] + " " + s[1];
+  l.style.left = s[3] + "%";
+  l.style.top = s[4] + "%";
+  layer.appendChild(l);
+}
+
+function render() {
+  document.getElementById("nodes-layer").innerHTML = "";
+  document.getElementById("lines").innerHTML = "";
+  
+  const oldEmpty = document.querySelector(".empty");
+  if (oldEmpty) oldEmpty.remove();
+
+  if (myMode) {
+    let a = spots.filter(s => selected.has(s[0]));
+    if (!a.length) {
+      let emp = document.createElement("div");
+      emp.className = "empty";
+      emp.innerHTML = "<b>还没有加入景点</b><br><small style='color:#999'>请返回地图挑选您感兴趣的景点</small>";
+      document.getElementById("map-viewport").appendChild(emp);
+      return;
+    }
+    route(a, "#e67d2e");
+    a.forEach(node);
+    return;
+  }
+
+  if (category === "all") {
+    for (let i = 0; i < spots.length - 1; i++) {
+      line(spots[i], spots[i + 1], "#b8b1a4", "edge");
+    }
+  } else {
+    route(spots.filter(s => s[2] === category), colors[category]);
+  }
+  spots.filter(s => category === "all" || s[2] === category).forEach(node);
+}
+
+function openSpot(s) {
+  current = s;
+  const tag = document.getElementById("panelTag");
+  tag.style.background = colors[s[2]];
+  tag.textContent = names[s[2]];
+  document.getElementById("panelTitle").textContent = s[0] + " · " + s[1];
+  document.getElementById("panelText").textContent = "南头古城代表性" + names[s[2]] + "点位。可在个人定制路线中自由规划与打卡（此段为功能演示文案）。";
+  
+  const addBtn = document.getElementById("addBtn");
+  if (selected.has(s[0])) {
+    addBtn.textContent = "✕ 从我的线路中移除";
+    addBtn.className = "addBtn remove";
+  } else {
+    addBtn.textContent = "＋ 加入我的线路";
+    addBtn.className = "addBtn";
+  }
+  document.getElementById("modal").style.display = "flex";
+}
+
+document.getElementById("close").onclick = () => document.getElementById("modal").style.display = "none";
+
+document.getElementById("addBtn").onclick = () => {
+  if (selected.has(current[0])) {
+    selected.delete(current[0]);
+  } else {
+    selected.add(current[0]);
+  }
+  document.getElementById("modal").style.display = "none";
+  update();
+  render();
+};
+
+document.querySelectorAll(".btn").forEach(b => b.onclick = () => {
+  category = b.dataset.cat;
+  myMode = false;
+  document.querySelectorAll(".btn").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  document.getElementById("title").textContent = "南头古城 · " + (category === "all" ? "全部景点" : names[category] + "路线");
+  render();
+});
+
+document.getElementById("myBtn").onclick = () => {
+  myMode = true;
+  document.getElementById("bottomDock").style.display = "none";
+  document.getElementById("title").textContent = "我的定制线路";
+  
+  let b = document.createElement("button");
+  b.className = "back-btn";
+  b.textContent = "← 返回景点地图";
+  b.onclick = () => {
+    myMode = false;
+    document.getElementById("bottomDock").style.display = "flex";
+    b.remove();
+    category = "all";
+    document.querySelectorAll(".btn").forEach(x => x.classList.remove("active"));
+    document.querySelector(".all").classList.add("active");
+    document.getElementById("title").textContent = "南头古城 · 全部景点";
+    render();
+  };
+  document.getElementById("app").appendChild(b);
+  render();
+};
+
+function update() {
+  document.getElementById("count").innerHTML = "已加入 <strong>" + selected.size + "</strong> 个景点";
+}
+
+render();
+update();
+</script>
+</body>
+</html>
