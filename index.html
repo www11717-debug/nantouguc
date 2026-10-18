@@ -250,6 +250,11 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
   }
+  .node.node-gate {
+    background: #2b2824 !important;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(43, 40, 36, 0.5);
+  }
   .node.node-start {
     background: #27ae60 !important;
     border-radius: 8px;
@@ -273,7 +278,7 @@
     text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
   }
 
-  /* 门口与停车场节点样式 */
+  /* 门口节点样式 */
   .gate-node {
     position: absolute;
     padding: 4px 8px;
@@ -292,39 +297,11 @@
     transition: transform 0.2s, background 0.2s;
   }
   .gate-node:hover { transform: translate(-50%, -50%) scale(1.15); background: #e67d2e; }
+  .gate-node.in-route {
+    background: #e67d2e !important;
+    border-color: #fff !important;
+  }
   .parking-node { background: #2980b9 !important; }
-
-  /* 我的位置参考光标 */
-  .my-location-marker {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #3498db;
-    border: 3px solid #fff;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 16px #3498db;
-    pointer-events: none;
-    z-index: 15;
-    animation: locPulse 1.8s infinite ease-out;
-  }
-  .my-location-tag {
-    position: absolute;
-    transform: translate(-50%, -24px);
-    background: #3498db;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 4px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  @keyframes locPulse {
-    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.8); }
-    70% { box-shadow: 0 0 0 16px rgba(52, 152, 219, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
-  }
 
   /* 便民设施节点 */
   .facility-node {
@@ -355,6 +332,38 @@
   @keyframes petPulse {
     0%, 100% { transform: translate(-50%, -50%) scale(1); }
     50% { transform: translate(-50%, -50%) scale(1.15); }
+  }
+
+  /* 参考光标 */
+  .my-location-marker {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #3498db;
+    border: 3px solid #fff;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 16px #3498db;
+    pointer-events: none;
+    z-index: 15;
+    animation: locPulse 1.8s infinite ease-out;
+  }
+  .my-location-tag {
+    position: absolute;
+    transform: translate(-50%, -24px);
+    background: #3498db;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  @keyframes locPulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.8); }
+    70% { box-shadow: 0 0 0 16px rgba(52, 152, 219, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
   }
 
   /* 控制栏 */
@@ -418,6 +427,7 @@
     text-align: center;
   }
 
+  /* 设施栏样式 */
   .emergency-section {
     background: #fdfbf8;
     border-radius: 18px;
@@ -429,12 +439,12 @@
   .em-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
   .em-btn {
     flex: 1;
-    min-width: 100px;
+    min-width: 95px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 10px 10px;
+    padding: 10px 8px;
     border-radius: 12px;
     border: 2px solid #ddd6ca;
     background: #fff;
@@ -442,12 +452,14 @@
     font-weight: 700;
     cursor: pointer;
     color: #4b4741;
+    transition: all 0.2s;
   }
+  .em-btn.active-gate { background: #2b2824; border-color: #2b2824; color: #fff; box-shadow: 0 4px 12px rgba(43, 40, 36, 0.35); }
+  .em-btn.active-pet { background: #ff7675; border-color: #ff7675; color: #fff; box-shadow: 0 4px 12px rgba(255, 118, 117, 0.35); }
   .em-btn.active-toilet { background: #1f77d0; border-color: #1f77d0; color: #fff; }
   .em-btn.active-medical { background: #d62b2b; border-color: #d62b2b; color: #fff; }
-  .em-btn.active-pet { background: #ff7675; border-color: #ff7675; color: #fff; }
 
-  /* ========== 我的旅程板块与起终点控制卡片 ========== */
+  /* 起终点控制 */
   .endpoint-control-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -594,7 +606,7 @@
   }
   .addBtn.remove { background: #888; }
 
-  /* 标点与选址地图框 */
+  /* 标点框 */
   .pin-map-box {
     position: relative;
     background: #e8e3d8;
@@ -767,17 +779,21 @@
       </div>
     </div>
 
+    <!-- 设施栏：严格按【门口 萌宠 卫生间 医疗】顺序排列 -->
     <div class="emergency-section" id="emergency-section">
       <div class="em-title">📍 便民与特色设施：在大地图上亮起定位</div>
       <div class="em-buttons">
+        <button class="em-btn" id="btn-gate" onclick="toggleFacility('gate')">
+          <span>🚪</span> 出入门口 (7处)
+        </button>
+        <button class="em-btn" id="btn-pet" onclick="toggleFacility('pet')">
+          <span>🐾</span> 古城萌宠 (8只)
+        </button>
         <button class="em-btn" id="btn-toilet" onclick="toggleFacility('toilet')">
           <span>🚽</span> 公共卫生间 (4处)
         </button>
         <button class="em-btn" id="btn-medical" onclick="toggleFacility('medical')">
           <span>🏥</span> 应急医疗点 (2处)
-        </button>
-        <button class="em-btn" id="btn-pet" onclick="toggleFacility('pet')">
-          <span>🐾</span> 古城萌宠 (8只)
         </button>
       </div>
     </div>
@@ -788,10 +804,9 @@
     <div class="module-header">
       <span class="module-tag">STEP 03 · 我的定制旅程</span>
       <h2 class="module-title">我的个人漫游轨迹</h2>
-      <div class="module-desc">专属定制动线与足迹记录。点击地图上的景点圆点可查看介绍或移出路线。</div>
+      <div class="module-desc">专属定制动线与足迹记录。点击地图上的景点或门口可查看介绍或移出路线。</div>
     </div>
 
-    <!-- 起点与终点设置卡片 -->
     <div class="endpoint-control-box">
       <div class="endpoint-card" onclick="openEndpointModal('start')">
         <div class="endpoint-card-label">🚩 起点设置</div>
@@ -839,7 +854,7 @@
 
 </div>
 
-<!-- 弹窗 1：景点详情 -->
+<!-- 弹窗 1：景点及门口详情弹窗 -->
 <div class="modal" id="spot-modal">
   <div class="panel">
     <button class="close" onclick="closeModals()">×</button>
@@ -863,7 +878,7 @@
   </div>
 </div>
 
-<!-- 弹窗 3：推荐路线专属地图预览 -->
+<!-- 弹窗 3：推荐路线地图预览 -->
 <div class="modal" id="route-map-modal">
   <div class="panel" style="max-width: 600px;">
     <button class="close" onclick="closeModals()">×</button>
@@ -974,14 +989,14 @@
         <span class="custom-opt-icon">🏛️</span>
         <div>
           <div class="custom-opt-title">选择已有景点</div>
-          <div class="custom-opt-desc">在古城全景景点（含您的自选景点）中挑选</div>
+          <div class="custom-opt-desc">在古城全景景点（含您的自选景点与门口）中挑选</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 弹窗 6：在大地图上选择【门口 / 停车场】（带我的位置参考） -->
+<!-- 弹窗 6：在大地图上选择【门口 / 停车场】 -->
 <div class="modal" id="gate-picker-modal">
   <div class="panel" style="max-width: 580px;">
     <button class="close" onclick="closeModals()">×</button>
@@ -1002,7 +1017,7 @@
   </div>
 </div>
 
-<!-- 弹窗 7：在大地图上选择【景点】（包含自定义景点） -->
+<!-- 弹窗 7：在大地图上选择【景点】 -->
 <div class="modal" id="spot-picker-modal">
   <div class="panel" style="max-width: 580px;">
     <button class="close" onclick="closeModals()">×</button>
@@ -1043,8 +1058,8 @@
 
 <script>
 // 1. 数据配置
-const colors = { study: "#df554f", photo: "#4ca565", food: "#e09d1e", shop: "#4588d6", custom: "#8e44ad" };
-const names = { study: "研学", photo: "拍照", food: "美食", shop: "购物", custom: "自选" };
+const colors = { study: "#df554f", photo: "#4ca565", food: "#e09d1e", shop: "#4588d6", custom: "#8e44ad", gate: "#2b2824" };
+const names = { study: "研学", photo: "拍照", food: "美食", shop: "购物", custom: "自选", gate: "门口" };
 
 const spots = [
   ["01","南城门","study",12,24],["02","东城门遗址","study",25,14],["03","新安县衙","study",39,23],["04","信国公文氏祠","study",52,15],["05","古城墙遗址","study",65,27],["06","南头古城博物馆","study",77,18],["07","历史文化街区","study",86,35],["08","古城广场","study",69,43],
@@ -1090,14 +1105,24 @@ const spotDescriptions = {
 
 // 六个门口 + 一个停车场
 const gatesAndParking = [
-  { id: "g_south", name: "🚪 南门（主入口）", x: 12, y: 22, isParking: false },
-  { id: "g_east", name: "🚪 东门出入口", x: 26, y: 12, isParking: false },
-  { id: "g_west", name: "🚪 西门出入口", x: 12, y: 62, isParking: false },
-  { id: "g_north", name: "🚪 北门牌坊", x: 86, y: 16, isParking: false },
-  { id: "g_ne", name: "🚪 东北门（中山公园）", x: 74, y: 8, isParking: false },
-  { id: "g_wutong", name: "🚪 梧桐街出入口", x: 46, y: 88, isParking: false },
-  { id: "p_south", name: "🅿️ 南门生态停车场", x: 6, y: 32, isParking: true }
+  { id: "g_south", name: "南门（主入口）", x: 12, y: 22, isParking: false },
+  { id: "g_east", name: "东门出入口", x: 26, y: 12, isParking: false },
+  { id: "g_west", name: "西门出入口", x: 12, y: 62, isParking: false },
+  { id: "g_north", name: "北门牌坊", x: 86, y: 16, isParking: false },
+  { id: "g_ne", name: "东北门（中山公园）", x: 74, y: 8, isParking: false },
+  { id: "g_wutong", name: "梧桐街出入口", x: 46, y: 88, isParking: false },
+  { id: "p_south", name: "南门生态停车场", x: 6, y: 32, isParking: true }
 ];
+
+const gateDescriptions = {
+  "g_south": "古城南大门，毗邻南头古城牌坊与深南大道，是初访最核心的标志性主入口。",
+  "g_east": "连接东门遗址与周边生活街区，步行至中山公园东门与古树广场十分便捷。",
+  "g_west": "直通西街创意市集与特色小吃街区，充满热闹的生活气息与浓郁烟火气。",
+  "g_north": "古城北部牌坊出入口，连接北城墙遗址步道，环境清幽静谧。",
+  "g_ne": "无缝接驳中山公园北区的林荫绿道，适合公园漫步与古城探索的连通路线。",
+  "g_wutong": "连接古城居民区与梧桐街的便民出入口，原汁原味感受城村共生肌理。",
+  "p_south": "南门生态地下及地面停车场，配备新能源充电桩，自驾出行推荐停靠首选。"
+};
 
 // 应急设施数据
 const facilities = [
@@ -1125,13 +1150,12 @@ let selected = new Set();
 let customSpotsList = [];
 let category = "all";
 let currentSpot = null;
-let activeFacilities = { toilet: false, medical: false, pet: false };
+let activeFacilities = { toilet: false, medical: false, pet: false, gate: false };
 
-// 起点与终点状态：{ id, name, x, y, type: 'loc'|'gate'|'spot' }
 let startEndpoint = null;
 let endEndpoint = null;
-let currentEndpointTarget = 'start'; // 'start' 或 'end'
-let cachedUserCoords = { x: 30, y: 40 }; // 缓存的用户GPS坐标
+let currentEndpointTarget = 'start';
+let cachedUserCoords = { x: 30, y: 40 };
 
 // 2. 问答推荐逻辑
 function answerQ1(need) {
@@ -1333,14 +1357,24 @@ function renderMainMap() {
   });
 }
 
+// 统一的弹窗介绍（支持普通景点、自定义景点、门口）
 function openSpotModal(s) {
   currentSpot = s;
   const isCustom = s[2] === "custom";
+  const isGate = s[2] === "gate";
   const tag = document.getElementById("panelTag");
-  tag.style.background = isCustom ? "#8e44ad" : colors[s[2]];
-  tag.textContent = isCustom ? "自选打卡" : names[s[2]];
-  document.getElementById("panelTitle").textContent = `${s[0]} · ${s[1]}`;
-  document.getElementById("panelText").textContent = isCustom ? "您在旅程中自行标定并添加的个性化打卡点。" : (spotDescriptions[s[0]] || "");
+  
+  tag.style.background = isCustom ? "#8e44ad" : (isGate ? "#2b2824" : colors[s[2]]);
+  tag.textContent = isCustom ? "自选打卡" : (isGate ? (s[1].includes("停车场") ? "🅿️ 停车场" : "🚪 出入门口") : names[s[2]]);
+  
+  const isSpecialId = s[0].startsWith('g_') || s[0].startsWith('p_') || s[0].startsWith('c_');
+  document.getElementById("panelTitle").textContent = isSpecialId ? s[1] : `${s[0]} · ${s[1]}`;
+  
+  let descText = "";
+  if (isCustom) descText = "您在旅程中自行标定并添加的个性化打卡点。";
+  else if (isGate) descText = gateDescriptions[s[0]] || "南头古城主要交通出入口。";
+  else descText = spotDescriptions[s[0]] || "";
+  document.getElementById("panelText").textContent = descText;
   
   const isSelected = isCustom ? customSpotsList.some(c => c[0] === s[0]) : selected.has(s[0]);
   const btn = document.getElementById("spotActionBtn");
@@ -1358,7 +1392,7 @@ function toggleSpotSelection() {
   } else {
     if (selected.has(currentSpot[0])) {
       selected.delete(currentSpot[0]);
-      showToast(`已移除：${currentSpot[1]}`);
+      showToast(`已从路线中移出：${currentSpot[1]}`);
     } else {
       selected.add(currentSpot[0]);
       showToast(`已加入我的路线：${currentSpot[1]}`);
@@ -1375,10 +1409,11 @@ function changeCategory(cat) {
   renderMainMap();
 }
 
+// 便民设施（门口/萌宠/卫生间/医疗）切换与弹窗
 function toggleFacility(type) {
   activeFacilities[type] = !activeFacilities[type];
-  const btnId = type === "toilet" ? "btn-toilet" : (type === "medical" ? "btn-medical" : "btn-pet");
-  const activeClass = type === "toilet" ? "active-toilet" : (type === "medical" ? "active-medical" : "active-pet");
+  const btnId = "btn-" + type;
+  const activeClass = "active-" + type;
   document.getElementById(btnId).classList.toggle(activeClass, activeFacilities[type]);
   renderFacilities();
 }
@@ -1387,21 +1422,24 @@ function renderFacilities() {
   const layer = document.getElementById("facility-layer");
   layer.innerHTML = "";
 
-  facilities.forEach(f => {
-    if (activeFacilities[f.type]) {
+  // 1. 门口与停车场显示
+  if (activeFacilities.gate) {
+    gatesAndParking.forEach(g => {
+      let isAdded = selected.has(g.id);
       let node = document.createElement("div");
-      node.className = `facility-node facility-${f.type}`;
-      node.style.left = f.x + "%";
-      node.style.top = f.y + "%";
-      node.innerHTML = f.type === "toilet" ? "WC" : "✚";
+      node.className = `gate-node ${g.isParking ? 'parking-node' : ''} ${isAdded ? 'in-route' : ''}`;
+      node.style.left = g.x + "%";
+      node.style.top = g.y + "%";
+      node.innerHTML = (g.isParking ? "🅿️ " : "🚪 ") + g.name + (isAdded ? " ✓" : "");
       node.onclick = (e) => {
         e.stopPropagation();
-        showToast(`${f.name}：${f.info}`);
+        openSpotModal([g.id, (g.isParking ? "🅿️ " : "🚪 ") + g.name, 'gate', g.x, g.y]);
       };
       layer.appendChild(node);
-    }
-  });
+    });
+  }
 
+  // 2. 萌宠（8只猫狗）
   if (activeFacilities.pet) {
     pets.forEach(p => {
       let node = document.createElement("div");
@@ -1417,6 +1455,38 @@ function renderFacilities() {
       layer.appendChild(node);
     });
   }
+
+  // 3. 卫生间
+  if (activeFacilities.toilet) {
+    facilities.filter(f => f.type === "toilet").forEach(f => {
+      let node = document.createElement("div");
+      node.className = "facility-node facility-toilet";
+      node.style.left = f.x + "%";
+      node.style.top = f.y + "%";
+      node.innerHTML = "WC";
+      node.onclick = (e) => {
+        e.stopPropagation();
+        showToast(`${f.name}：${f.info}`);
+      };
+      layer.appendChild(node);
+    });
+  }
+
+  // 4. 应急医疗
+  if (activeFacilities.medical) {
+    facilities.filter(f => f.type === "medical").forEach(f => {
+      let node = document.createElement("div");
+      node.className = "facility-node facility-medical";
+      node.style.left = f.x + "%";
+      node.style.top = f.y + "%";
+      node.innerHTML = "✚";
+      node.onclick = (e) => {
+        e.stopPropagation();
+        showToast(`${f.name}：${f.info}`);
+      };
+      layer.appendChild(node);
+    });
+  }
 }
 
 function openPetModal(pet) {
@@ -1428,10 +1498,11 @@ function openPetModal(pet) {
   document.getElementById("pet-modal").style.display = "flex";
 }
 
-// 4. 我的旅程板块渲染（整合起点、途径景点、终点）
+// 4. 我的旅程板块渲染（整合起点、途径景点、门口、终点）
 function getAllJourneySpots() {
   let standard = spots.filter(s => selected.has(s[0]));
-  return [...standard, ...customSpotsList];
+  let addedGates = gatesAndParking.filter(g => selected.has(g.id)).map(g => [g.id, (g.isParking ? "🅿️ " : "🚪 ") + g.name, 'gate', g.x, g.y]);
+  return [...standard, ...addedGates, ...customSpotsList];
 }
 
 function getFullOrderedRoute() {
@@ -1454,7 +1525,6 @@ function renderJourney() {
   layer.innerHTML = "";
   svg.innerHTML = "";
 
-  // 更新卡片上的起点和终点显示
   const startDisp = document.getElementById("startEndpointDisplay");
   const clearStart = document.getElementById("clearStartBtn");
   if (startEndpoint) {
@@ -1479,7 +1549,6 @@ function renderJourney() {
     clearEnd.style.display = "none";
   }
 
-  // 统计数据
   const count = fullRoute.length;
   document.getElementById("stat-count").textContent = count;
   document.getElementById("stat-dist").textContent = (count * 0.42).toFixed(1);
@@ -1490,7 +1559,6 @@ function renderJourney() {
     return;
   }
 
-  // 绘制连线：若设置了起点或终点则为单向导航线；若皆未设置且景点>=2则为闭合环线
   const isLoop = (!startEndpoint && !endEndpoint && fullRoute.length > 2);
   const lineCount = isLoop ? fullRoute.length : fullRoute.length - 1;
 
@@ -1506,12 +1574,12 @@ function renderJourney() {
     svg.appendChild(l);
   }
 
-  // 渲染节点
   fullRoute.forEach((s, idx) => {
     let n = document.createElement("div");
     let isStart = s[2] === "start";
     let isEnd = s[2] === "end";
     let isCustom = s[2] === "custom";
+    let isGate = s[2] === "gate";
 
     if (isStart) {
       n.className = "node node-start";
@@ -1522,6 +1590,9 @@ function renderJourney() {
     } else if (isCustom) {
       n.className = "node node-custom";
       n.innerHTML = "★";
+    } else if (isGate) {
+      n.className = "node node-gate";
+      n.innerHTML = s[1].includes("🅿️") ? "🅿️" : "🚪";
     } else {
       n.className = "node";
       n.style.background = colors[s[2]];
@@ -1554,6 +1625,7 @@ function renderJourney() {
 function updateAll() {
   document.getElementById("count").innerHTML = `已加入 <strong>${selected.size + customSpotsList.length}</strong> 个景点`;
   renderMainMap();
+  renderFacilities();
   renderJourney();
 }
 
@@ -1579,7 +1651,6 @@ function clearEndpoint(target, e) {
   updateAll();
 }
 
-// 5.1 选择当前定位作为起/终点
 function setEndpointByCurrentLocation() {
   showToast("正在获取定位信息...");
   fetchUserGPS(coords => {
@@ -1600,7 +1671,6 @@ function setEndpointByCurrentLocation() {
   });
 }
 
-// 5.2 选择门口 / 停车场
 function openGatePickerModal() {
   closeModals();
   const isStart = currentEndpointTarget === 'start';
@@ -1609,14 +1679,11 @@ function openGatePickerModal() {
   const layer = document.getElementById("gate-picker-layer");
   layer.innerHTML = "";
 
-  // 1. 获取并渲染用户当前位置光标参考
   fetchUserGPS(coords => {
-    // 渲染蓝色呼吸光标
     let myLoc = document.createElement("div");
     myLoc.className = "my-location-marker";
     myLoc.style.left = coords.x + "%";
     myLoc.style.top = coords.y + "%";
-    
     let tag = document.createElement("div");
     tag.className = "my-location-tag";
     tag.textContent = "📍 您当前在这里";
@@ -1624,15 +1691,14 @@ function openGatePickerModal() {
     layer.appendChild(myLoc);
   });
 
-  // 2. 渲染 6 个门 + 1 个停车场节点
   gatesAndParking.forEach(g => {
     let n = document.createElement("div");
     n.className = "gate-node" + (g.isParking ? " parking-node" : "");
     n.style.left = g.x + "%";
     n.style.top = g.y + "%";
-    n.textContent = g.name;
+    n.textContent = (g.isParking ? "🅿️ " : "🚪 ") + g.name;
     n.onclick = () => {
-      const point = { id: g.id, name: g.name, x: g.x, y: g.y, type: "gate" };
+      const point = { id: g.id, name: (g.isParking ? "🅿️ " : "🚪 ") + g.name, x: g.x, y: g.y, type: "gate" };
       if (isStart) startEndpoint = point;
       else endEndpoint = point;
       closeModals();
@@ -1645,7 +1711,6 @@ function openGatePickerModal() {
   document.getElementById("gate-picker-modal").style.display = "flex";
 }
 
-// 5.3 选择景点（包含自定义景点）
 function openSpotPickerModal() {
   closeModals();
   const isStart = currentEndpointTarget === 'start';
@@ -1654,7 +1719,6 @@ function openSpotPickerModal() {
   const layer = document.getElementById("spot-picker-layer");
   layer.innerHTML = "";
 
-  // 渲染所有固定景点
   spots.forEach(s => {
     let n = document.createElement("div");
     n.className = "node";
@@ -1679,7 +1743,6 @@ function openSpotPickerModal() {
     layer.appendChild(l);
   });
 
-  // 渲染自定义景点
   customSpotsList.forEach(cs => {
     let n = document.createElement("div");
     n.className = "node node-custom";
@@ -1707,7 +1770,6 @@ function openSpotPickerModal() {
   document.getElementById("spot-picker-modal").style.display = "flex";
 }
 
-// 统一GPS定位获取与坐标换算工具
 function fetchUserGPS(callback) {
   if (!navigator.geolocation) {
     callback(cachedUserCoords);
@@ -1735,7 +1797,7 @@ function fetchUserGPS(callback) {
   );
 }
 
-// 6. 自定义功能（弹窗内地图标点与自由拖拽）
+// 6. 自定义功能
 let pinCoord = { x: 50, y: 50 };
 
 function openCustomSpotModal() {
@@ -1895,7 +1957,7 @@ function generateSouvenirPoster() {
 
     ctx.beginPath();
     ctx.arc(px, py, 10, 0, Math.PI * 2);
-    ctx.fillStyle = s[2] === 'start' ? '#27ae60' : (s[2] === 'end' ? '#c0392b' : (s[2] === 'custom' ? '#8e44ad' : (colors[s[2]] || '#e67d2e')));
+    ctx.fillStyle = s[2] === 'start' ? '#27ae60' : (s[2] === 'end' ? '#c0392b' : (s[2] === 'custom' ? '#8e44ad' : (s[2] === 'gate' ? '#2b2824' : (colors[s[2]] || '#e67d2e'))));
     ctx.fill();
     ctx.strokeStyle = "#fff";
     ctx.lineWidth = 2.5;
@@ -1960,7 +2022,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2200);
 }
 
-// 页面初始化
+// 页面初始化启动
 updateAll();
 </script>
 </body>
