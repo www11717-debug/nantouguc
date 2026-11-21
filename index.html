@@ -108,7 +108,7 @@
   .tab-panel.active { display: block; animation: fadeIn 0.22s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 排版样式（对齐设计稿宋体标题 + 思源黑体正文） */
+  /* 排版样式 */
   .hero-section {
     display: flex;
     align-items: center;
@@ -409,11 +409,13 @@
     color: #fff;
   }
 
-  /* 地图容器 & 缩放平移系统 */
+  /* 地图容器：严格保持 PS 地图 1541:1423 比例，确保高德换算点位像素级精确对齐 */
   .map-viewport {
     position: relative;
     width: 100%;
-    height: 410px;
+    max-width: calc(74vh * 1541 / 1423);
+    aspect-ratio: 1541 / 1423;
+    margin: 0 auto;
     background: #EAE7D8;
     border-radius: 16px;
     border: 1px solid var(--border);
@@ -423,18 +425,19 @@
     cursor: grab;
   }
   .map-viewport:active { cursor: grabbing; }
-  .map-viewport.compact { height: 300px; }
-  .map-viewport.tall { height: 430px; }
+  .map-viewport.compact {
+    max-width: calc(44vh * 1541 / 1423);
+  }
 
   .map-watermark {
     position: absolute;
-    left: 16px;
-    top: 14px;
+    left: 14px;
+    top: 12px;
     z-index: 3;
     pointer-events: none;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: 22px;
+    font-size: 20px;
     color: #6B7562;
     line-height: 1.1;
     letter-spacing: 1px;
@@ -442,7 +445,7 @@
   .map-watermark span {
     display: block;
     font-family: var(--font-sans);
-    font-size: 9px;
+    font-size: 8.5px;
     letter-spacing: 1.2px;
     color: #8A9282;
     margin-top: 2px;
@@ -469,7 +472,7 @@
   .map-art-layer img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill;
     display: block;
   }
   .map-svg-fallback {
@@ -478,25 +481,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .map-decor-gate {
-    position: absolute;
-    left: 34%;
-    bottom: 6%;
-    width: 68px;
-    height: 54px;
-    transform: translate(-50%, 0);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .map-decor-cat {
-    position: absolute;
-    right: 12%;
-    bottom: 8%;
-    width: 44px;
-    height: 36px;
-    pointer-events: none;
-    z-index: 2;
   }
 
   svg.lines-svg {
@@ -507,9 +491,9 @@
     pointer-events: none;
     z-index: 3;
   }
-  .edge { stroke: rgba(140, 134, 114, 0.45); stroke-width: 1.5; fill: none; stroke-dasharray: 3 3; }
-  .routeEdge { stroke-width: 3.5; fill: none; stroke-linecap: round; }
-  .routeEdge.dashed { stroke-dasharray: 7 5; }
+  .edge { stroke: rgba(140, 134, 114, 0.36); stroke-width: 1.2; fill: none; stroke-dasharray: 3 3; }
+  .routeEdge { stroke-width: 3; fill: none; stroke-linecap: round; }
+  .routeEdge.dashed { stroke-dasharray: 6 5; }
 
   .nodes-layer, .facility-layer {
     position: absolute;
@@ -551,11 +535,11 @@
   /* 地图节点与标签（随地图同步缩放） */
   .node {
     position: absolute;
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 2px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.24);
     transform: translate(-50%, -50%);
     cursor: pointer;
     pointer-events: auto;
@@ -564,7 +548,7 @@
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     transition: box-shadow 0.15s ease;
   }
@@ -578,46 +562,46 @@
     position: absolute;
     right: -5px;
     top: -5px;
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background: var(--primary);
     color: #fff;
-    font-size: 9px;
+    font-size: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1.5px solid #fff;
   }
   .node.node-custom { background: var(--accent) !important; }
-  .node.node-gate { background: var(--ink) !important; border-radius: 8px; }
+  .node.node-gate { background: var(--ink) !important; border-radius: 7px; }
   .node.node-start { background: var(--primary) !important; z-index: 10; }
   .node.node-end { background: var(--accent) !important; z-index: 10; }
 
   .nodeLabel {
     position: absolute;
-    transform: translate(-50%, 15px);
+    transform: translate(-50%, 14px);
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba(227, 225, 214, 0.85);
-    border-radius: 6px;
-    padding: 1.5px 6px;
-    font-size: 10px;
-    line-height: 1.3;
+    border-radius: 5px;
+    padding: 1px 5px;
+    font-size: 9.5px;
+    line-height: 1.25;
     white-space: nowrap;
     color: var(--ink);
     font-weight: 500;
     pointer-events: auto;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
     z-index: 5;
   }
-  .nodeLabel.compact { font-size: 9px; padding: 1px 4px; opacity: 0.92; }
+  .nodeLabel.compact { font-size: 8.5px; padding: 0.5px 4px; opacity: 0.9; }
 
   /* 门口与便民设施标记 */
   .gate-node {
     position: absolute;
     padding: 3px 8px;
-    border-radius: 16px;
+    border-radius: 14px;
     background: var(--ink);
     color: #fff;
     font-size: 10px;
@@ -638,8 +622,8 @@
 
   .facility-node {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
@@ -648,15 +632,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #fff;
     z-index: 8;
     border: 2px solid #fff;
   }
   .facility-node img { width: 100%; height: 100%; object-fit: contain; }
-  .facility-toilet { background: #4E7896; border-radius: 8px; }
-  .facility-medical { background: #B75C42; border-radius: 8px; }
+  .facility-toilet { background: #4E7896; border-radius: 7px; }
+  .facility-medical { background: #B75C42; border-radius: 7px; }
   .facility-pet {
     background: #FFFDF8;
     color: var(--ink);
@@ -940,7 +924,7 @@
   .bottom-tab.active { color: var(--primary); font-weight: 600; }
   .bottom-tab.active .tab-dot { background: var(--primary); transform: scale(1.2); }
 
-  /* ================= 弹窗样式：全端屏幕居中大弹窗（与截图一模一样） ================= */
+  /* ================= 弹窗样式：全端屏幕居中大弹窗 ================= */
   .modal {
     position: fixed;
     inset: 0;
@@ -952,9 +936,7 @@
     z-index: 100;
     padding: 18px 14px;
   }
-  #spot-modal {
-    z-index: 130;
-  }
+  #spot-modal { z-index: 130; }
   .modal.open { display: flex; }
 
   .panel {
@@ -975,27 +957,25 @@
     to { transform: scale(1) translateY(0); opacity: 1; }
   }
 
-  /* 景点大弹窗专用板式（严格复刻附图） */
+  /* 景点居中大弹窗 */
   .spot-panel {
     min-height: 76vh;
     display: flex;
     flex-direction: column;
     background: #FFFFFF;
-    padding: 28px 24px 24px;
+    padding: 26px 22px 22px;
   }
-  .spot-modal-header {
-    padding-right: 38px;
-  }
+  .spot-modal-header { padding-right: 38px; }
   .spot-modal-eyebrow {
     font-size: 11px;
     color: var(--muted);
     letter-spacing: 0.4px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     display: block;
     font-weight: 400;
   }
   .spot-modal-title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--ink);
     margin: 0;
@@ -1003,9 +983,9 @@
     letter-spacing: 0.3px;
   }
   .spot-modal-center-art {
-    width: 220px;
-    height: 162px;
-    margin: 22px auto 22px;
+    width: 196px;
+    height: 140px;
+    margin: 14px auto 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1013,17 +993,28 @@
   }
   .spot-modal-content-box {
     flex: 1;
-    min-height: 210px;
+    min-height: 220px;
     background: var(--surface-card);
     border-radius: 16px;
-    padding: 18px 18px;
+    padding: 16px 16px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+  }
+  .spot-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .spot-meta-chip {
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--ink);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(227, 225, 214, 0.9);
   }
   .spot-modal-subbadge {
-    display: inline-block;
-    align-self: flex-start;
     background: var(--primary);
     color: #fff;
     font-size: 11px;
@@ -1033,26 +1024,47 @@
   }
   .spot-modal-desc {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.75;
-    color: #465047;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #3D473F;
     font-weight: 400;
+  }
+  .spot-photo-tip {
+    font-size: 12.5px;
+    color: var(--primary);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 8px 11px;
+    line-height: 1.55;
   }
   .spot-modal-photos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
+    margin-top: 2px;
   }
   .spot-modal-photos:empty { display: none; }
-  .spot-modal-photos img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
+  .spot-photo-item {
+    background: #fff;
     border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(227, 225, 214, 0.8);
   }
-  .spot-modal-footer {
-    margin-top: 20px;
+  .spot-photo-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
   }
+  .spot-photo-cap {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 4px 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .spot-modal-footer { margin-top: 18px; }
 
   .modal-close {
     position: absolute;
@@ -1231,7 +1243,7 @@
       max-width: 1280px;
       padding: 24px 28px 40px;
       display: grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 430px 1fr;
       gap: 28px;
       align-items: start;
     }
@@ -1241,13 +1253,9 @@
       grid-column: 1;
       grid-row: 1 / span 3;
     }
-    body.mode-plan #tab-explore {
-      display: contents;
-    }
+    body.mode-plan #tab-explore { display: contents; }
     body.mode-plan #tab-explore .explore-top,
-    body.mode-plan #tab-explore .explore-bottom {
-      display: none;
-    }
+    body.mode-plan #tab-explore .explore-bottom { display: none; }
     body.mode-plan #tab-explore .explore-map-stage {
       grid-column: 2;
       grid-row: 1 / span 3;
@@ -1255,17 +1263,9 @@
       top: 86px;
     }
 
-    body.mode-explore #tab-explore.active {
-      display: contents;
-    }
-    body.mode-explore #tab-explore .explore-top {
-      grid-column: 1;
-      grid-row: 1;
-    }
-    body.mode-explore #tab-explore .explore-bottom {
-      grid-column: 1;
-      grid-row: 2;
-    }
+    body.mode-explore #tab-explore.active { display: contents; }
+    body.mode-explore #tab-explore .explore-top { grid-column: 1; grid-row: 1; }
+    body.mode-explore #tab-explore .explore-bottom { grid-column: 1; grid-row: 2; }
     body.mode-explore #tab-explore .explore-map-stage {
       grid-column: 2;
       grid-row: 1 / span 3;
@@ -1273,17 +1273,9 @@
       top: 86px;
     }
 
-    body.mode-journey #tab-journey.active {
-      display: contents;
-    }
-    body.mode-journey #tab-journey .journey-top {
-      grid-column: 1;
-      grid-row: 1;
-    }
-    body.mode-journey #tab-journey .journey-bottom {
-      grid-column: 1;
-      grid-row: 2;
-    }
+    body.mode-journey #tab-journey.active { display: contents; }
+    body.mode-journey #tab-journey .journey-top { grid-column: 1; grid-row: 1; }
+    body.mode-journey #tab-journey .journey-bottom { grid-column: 1; grid-row: 2; }
     body.mode-journey #tab-journey .journey-map-stage {
       grid-column: 2;
       grid-row: 1 / span 3;
@@ -1291,12 +1283,11 @@
       top: 86px;
     }
 
-    .map-viewport { height: 620px; }
-    .map-viewport.tall { height: 620px; }
-    .map-viewport.compact { height: 340px; }
+    .map-viewport { max-width: calc(78vh * 1541 / 1423); }
+    .map-viewport.compact { max-width: calc(44vh * 1541 / 1423); }
 
     .panel { padding: 30px 28px 26px; }
-    .spot-panel { min-height: 600px; max-height: 86vh; }
+    .spot-panel { min-height: 600px; max-height: 88vh; }
   }
 </style>
 </head>
@@ -1343,7 +1334,7 @@
       </div>
 
       <div id="q1-no-tip" class="manual-explore-tip">
-        <p>你可以直接在探索地图中缩放浏览所有点位，点击喜欢的地点加入个人漫游路线。</p>
+        <p>你可以直接在探索地图中缩放浏览 33 家正式店铺与出入口，点击喜欢的地点加入个人漫游路线。</p>
         <button class="btn-primary" onclick="switchTab('explore')">去探索地图挑选 →</button>
       </div>
 
@@ -1352,7 +1343,7 @@
         <div class="grid-2" id="theme-grid">
           <button class="pill-choice active" data-theme="shop" onclick="selectTheme('shop')">文创购物</button>
           <button class="pill-choice" data-theme="food" onclick="selectTheme('food')">美食寻味</button>
-          <button class="pill-choice" data-theme="study" onclick="selectTheme('study')">研学历史</button>
+          <button class="pill-choice" data-theme="study" onclick="selectTheme('study')">研学手作</button>
           <button class="pill-choice" data-theme="photo" onclick="selectTheme('photo')">街景拍照</button>
         </div>
 
@@ -1375,7 +1366,7 @@
   <section id="tab-explore" class="tab-panel">
     <div class="explore-top">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="搜索小店、景点..." oninput="handleSearchInput()" onkeydown="if(event.key==='Enter')applySearch()">
+        <input type="text" id="searchInput" placeholder="搜索小店、街道、分类..." oninput="handleSearchInput()" onkeydown="if(event.key==='Enter')applySearch()">
         <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()">✕</button>
         <button class="search-submit-btn" onclick="applySearch()">搜索</button>
       </div>
@@ -1395,7 +1386,7 @@
       </div>
     </div>
 
-    <!-- 探索地图主画布（支持缩放与平移，图标同步缩放） -->
+    <!-- 探索地图主画布（1541:1423 比例，缩放时图标等比缩放） -->
     <div class="explore-map-stage">
       <div class="map-viewport" id="explore-map-viewport">
         <div class="map-watermark">南头古城<span>NANTOU ANCIENT CITY</span></div>
@@ -1403,14 +1394,6 @@
           <div class="map-art-layer">
             <img src="./assets/map-bg.png" alt="南头古城地图" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div class="map-svg-fallback" data-svg="map"></div>
-          </div>
-          <div class="map-decor-gate">
-            <img class="art-img" src="./assets/illu-gate.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="art-fallback" data-svg="gate"></div>
-          </div>
-          <div class="map-decor-cat">
-            <img class="art-img" src="./assets/illu-cat.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="art-fallback" data-svg="cat"></div>
           </div>
           <svg class="lines-svg" id="explore-lines"></svg>
           <div class="nodes-layer" id="explore-nodes-layer"></div>
@@ -1488,20 +1471,12 @@
 
     <!-- 我的旅程专属地图 -->
     <div class="journey-map-stage" id="journeyMapStage">
-      <div class="map-viewport tall" id="journey-map-viewport">
+      <div class="map-viewport" id="journey-map-viewport">
         <div class="map-watermark">南头古城<span>NANTOU ANCIENT CITY</span></div>
         <div class="map-zoom-stage" id="journey-zoom-stage">
           <div class="map-art-layer">
             <img src="./assets/map-bg.png" alt="南头古城地图" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div class="map-svg-fallback" data-svg="map"></div>
-          </div>
-          <div class="map-decor-gate">
-            <img class="art-img" src="./assets/illu-gate.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="art-fallback" data-svg="gate"></div>
-          </div>
-          <div class="map-decor-cat">
-            <img class="art-img" src="./assets/illu-cat.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="art-fallback" data-svg="cat"></div>
           </div>
           <svg class="lines-svg" id="journey-lines"></svg>
           <div class="nodes-layer" id="journey-nodes-layer"></div>
@@ -1541,20 +1516,21 @@
   </button>
 </nav>
 
-<!-- ================= 弹窗 1：景点居中大弹窗（全场景通用，严格对齐图11版式） ================= -->
+<!-- ================= 弹窗 1：景点居中大弹窗 ================= -->
 <div class="modal" id="spot-modal" onclick="backdropCloseSingle(event, 'spot-modal')">
   <div class="panel spot-panel">
     <button class="modal-close" onclick="closeModal('spot-modal')">×</button>
     <div class="spot-modal-header">
-      <span class="spot-modal-eyebrow" id="spotModalEyebrow">CITY'S GOOD SHOPS / 古城美食</span>
-      <h3 class="spot-modal-title" id="spotModalTitle">街边小食</h3>
+      <span class="spot-modal-eyebrow" id="spotModalEyebrow">GROUP 01 · 咖啡与茶</span>
+      <h3 class="spot-modal-title" id="spotModalTitle">店铺名称</h3>
     </div>
 
     <div class="spot-modal-center-art" id="spotModalArt"></div>
 
     <div class="spot-modal-content-box">
-      <span class="spot-modal-subbadge" id="spotModalSubTag">地道小吃</span>
+      <div class="spot-meta-row" id="spotModalMetaRow"></div>
       <p class="spot-modal-desc" id="spotModalDesc"></p>
+      <div class="spot-photo-tip" id="spotModalPhotoTip" style="display:none;"></div>
       <div class="spot-modal-photos" id="spotModalPhotos"></div>
     </div>
 
@@ -1596,7 +1572,7 @@
     <div id="rModalMeta" style="font-size: 12px; color: var(--muted); margin-bottom: 12px;"></div>
 
     <div class="map-viewport compact" id="preview-map-viewport">
-      <div class="map-watermark" style="font-size: 17px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
+      <div class="map-watermark" style="font-size: 16px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
       <div class="map-zoom-stage" id="preview-zoom-stage">
         <div class="map-art-layer">
           <img src="./assets/map-bg.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -1613,7 +1589,7 @@
     </div>
 
     <div id="rModalChain" style="font-size: 13px; color: var(--ink); margin: 12px 0 6px; line-height: 1.6;"></div>
-    <div style="font-size: 12px; color: var(--muted); margin-bottom: 16px;">点击地图圆点可打开景点详细介绍；导入时保留已有自定义点位。</div>
+    <div style="font-size: 12px; color: var(--muted); margin-bottom: 16px;">点击地图圆点可打开店铺大图与详细介绍；导入时保留已有自定义点位。</div>
 
     <div class="grid-2">
       <button class="btn-secondary" onclick="closeModal('route-map-modal')">返回</button>
@@ -1637,7 +1613,7 @@
 
       <div class="option-card" onclick="startLocationDetection()">
         <div class="option-card-title">使用当前定位</div>
-        <div class="option-card-desc">定位成功后命名；不在古城范围内时自动提示</div>
+        <div class="option-card-desc">获取手机 GPS（自动高德纠偏）并换算到古城地图位置</div>
       </div>
       <div class="option-card" onclick="openPinningMapStep()">
         <div class="option-card-title">在地图上手动标点</div>
@@ -1660,7 +1636,7 @@
       <p class="editorial-sub" style="margin-bottom: 12px;">点击地图放置图钉，拖动可微调，双指或按钮可缩放地图。</p>
 
       <div class="map-viewport compact" id="pin-map-viewport">
-        <div class="map-watermark" style="font-size: 17px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
+        <div class="map-watermark" style="font-size: 16px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
         <div class="map-zoom-stage" id="pin-zoom-stage">
           <div class="map-art-layer">
             <img src="./assets/map-bg.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -1720,7 +1696,7 @@
 
     <div class="option-card" onclick="setEndpointByCurrentLocation()">
       <div class="option-card-title">使用当前位置</div>
-      <div class="option-card-desc">请求定位授权；失败时提供手动选择</div>
+      <div class="option-card-desc">请求定位授权并经高德坐标纠偏映射到古城地图</div>
     </div>
     <div class="option-card" onclick="openGatePickerModal()">
       <div class="option-card-title">选择门口 / 停车场</div>
@@ -1728,7 +1704,7 @@
     </div>
     <div class="option-card" onclick="openSpotPickerModal()">
       <div class="option-card-title">选择已有景点</div>
-      <div class="option-card-desc">包含公共点位与自己的自定义地点</div>
+      <div class="option-card-desc">包含 33 家正式店铺与自己的自定义地点</div>
     </div>
 
     <div class="gps-error-card" id="endpointGpsError">
@@ -1753,7 +1729,7 @@
     <p style="font-size: 12px; color: var(--muted); margin: 0 0 10px;">蓝色呼吸光标为您当前参考位置，点击任意门口或停车场标签直接确认。</p>
 
     <div class="map-viewport compact" id="gate-picker-viewport">
-      <div class="map-watermark" style="font-size: 17px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
+      <div class="map-watermark" style="font-size: 16px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
       <div class="map-zoom-stage" id="gate-picker-zoom-stage">
         <div class="map-art-layer">
           <img src="./assets/map-bg.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -1780,10 +1756,10 @@
     <button class="modal-close" onclick="closeModal('spot-picker-modal')">×</button>
     <span class="section-eyebrow">ENDPOINT / 景点选择</span>
     <h3 class="detail-title" id="spotPickerModalTitle" style="font-size: 20px;">点击地图选择景点</h3>
-    <p style="font-size: 12px; color: var(--muted); margin: 0 0 10px;">包含古城全部 32 处地点及您的自定义发现，双指或按钮可放大缩小地图。</p>
+    <p style="font-size: 12px; color: var(--muted); margin: 0 0 10px;">包含古城全部 33 家店铺及您的自定义发现，双指或按钮可放大缩小地图。</p>
 
     <div class="map-viewport compact" id="spot-picker-viewport">
-      <div class="map-watermark" style="font-size: 17px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
+      <div class="map-watermark" style="font-size: 16px;">南头古城<span>NANTOU ANCIENT CITY</span></div>
       <div class="map-zoom-stage" id="spot-picker-zoom-stage">
         <div class="map-art-layer">
           <img src="./assets/map-bg.png" alt="" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -1823,7 +1799,87 @@
 <canvas id="posterCanvas" width="720" height="960" style="display:none;"></canvas>
 
 <script>
-// ================= 1. 配色与矢量兜底插画 =================
+// ================= 1. 高德(GCJ-02) ⇄ PS地图(1541×1423) 精确换算引擎 =================
+const MAP_W = 1541;
+const MAP_H = 1423;
+
+// 用户提供的 3 个高德-PS校准锚点：
+// 1) 东门：PS (1422, 634)   <-> 高德 GCJ-02 (113.92425, 22.54430)
+// 2) 南门：PS (786, 1014)   <-> 高德 GCJ-02 (113.92035, 22.54215)
+// 3) 停车场：PS (963, 1259) <-> 高德 GCJ-02 (113.92143, 22.54076)
+const CALIBRATION_ANCHORS = [
+  { name: "东门",   lng: 113.92425, lat: 22.54430, px: 1422, py: 634  },
+  { name: "南门",   lng: 113.92035, lat: 22.54215, px: 786,  py: 1014 },
+  { name: "停车场", lng: 113.92143, lat: 22.54076, px: 963,  py: 1259 }
+];
+
+// 求解 2D 仿射变换矩阵：px = a*lng + b*lat + c, py = d*lng + e*lat + f
+function solveAffineMatrix(pts) {
+  const [p0, p1, p2] = pts;
+  const x0 = p0.lng, y0 = p0.lat;
+  const x1 = p1.lng, y1 = p1.lat;
+  const x2 = p2.lng, y2 = p2.lat;
+  const det = x0 * (y1 - y2) - y0 * (x1 - x2) + (x1 * y2 - x2 * y1);
+
+  const solve3 = (z0, z1, z2) => {
+    const da = z0 * (y1 - y2) - y0 * (z1 - z2) + (z1 * y2 - z2 * y1);
+    const db = x0 * (z1 - z2) - z0 * (x1 - x2) + (x1 * z2 - x2 * z1);
+    const dc = x0 * (y1 * z2 - y2 * z1) - y0 * (x1 * z2 - x2 * z1) + z0 * (x1 * y2 - x2 * y1);
+    return [da / det, db / det, dc / det];
+  };
+  const [a, b, c] = solve3(p0.px, p1.px, p2.px);
+  const [d, e, f] = solve3(p0.py, p1.py, p2.py);
+  return { a, b, c, d, e, f };
+}
+
+const AFFINE_M = solveAffineMatrix(CALIBRATION_ANCHORS);
+
+// 将高德 GCJ-02 经纬度精确换算成 PS 像素及百分比坐标
+function gcj02ToMapPercent(lng, lat) {
+  const px = AFFINE_M.a * lng + AFFINE_M.b * lat + AFFINE_M.c;
+  const py = AFFINE_M.d * lng + AFFINE_M.e * lat + AFFINE_M.f;
+  return {
+    px: Math.round(px),
+    py: Math.round(py),
+    x: Number(((px / MAP_W) * 100).toFixed(2)),
+    y: Number(((py / MAP_H) * 100).toFixed(2))
+  };
+}
+
+// 手机浏览器原生 GPS (WGS-84) 转高德坐标系 (GCJ-02) 算法
+function outOfChina(lng, lat) {
+  return lng < 72.004 || lng > 137.8347 || lat < 0.8293 || lat > 55.8271;
+}
+function transformLat(x, y) {
+  let ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+  ret += (20.0 * Math.sin(6.0 * x * Math.PI) + 20.0 * Math.sin(2.0 * x * Math.PI)) * 2.0 / 3.0;
+  ret += (20.0 * Math.sin(y * Math.PI) + 40.0 * Math.sin(y / 3.0 * Math.PI)) * 2.0 / 3.0;
+  ret += (160.0 * Math.sin(y / 12.0 * Math.PI) + 320 * Math.sin(y * Math.PI / 30.0)) * 2.0 / 3.0;
+  return ret;
+}
+function transformLon(x, y) {
+  let ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+  ret += (20.0 * Math.sin(6.0 * x * Math.PI) + 20.0 * Math.sin(2.0 * x * Math.PI)) * 2.0 / 3.0;
+  ret += (20.0 * Math.sin(x * Math.PI) + 40.0 * Math.sin(x / 3.0 * Math.PI)) * 2.0 / 3.0;
+  ret += (150.0 * Math.sin(x / 12.0 * Math.PI) + 300.0 * Math.sin(x / 30.0 * Math.PI)) * 2.0 / 3.0;
+  return ret;
+}
+function wgs84ToGcj02(wgsLng, wgsLat) {
+  if (outOfChina(wgsLng, wgsLat)) return { lng: wgsLng, lat: wgsLat };
+  const a = 6378245.0;
+  const ee = 0.00669342162296594323;
+  let dLat = transformLat(wgsLng - 105.0, wgsLat - 35.0);
+  let dLon = transformLon(wgsLng - 105.0, wgsLat - 35.0);
+  const radLat = wgsLat / 180.0 * Math.PI;
+  let magic = Math.sin(radLat);
+  magic = 1 - ee * magic * magic;
+  const sqrtMagic = Math.sqrt(magic);
+  dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+  dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * Math.PI);
+  return { lng: wgsLng + dLon, lat: wgsLat + dLat };
+}
+
+// ================= 2. 配色与矢量兜底插画 =================
 const colors = {
   study: "#B75C42",
   photo: "#52694E",
@@ -1832,22 +1888,13 @@ const colors = {
   custom: "#B75C42",
   gate: "#303E35"
 };
-const catLabels = {
-  study: "CITY'S HISTORY / 研学历史",
-  photo: "CITY'S VIEWS / 街景拍照",
-  food: "CITY'S GOOD SHOPS / 古城美食",
-  shop: "CITY'S GOOD SHOPS / 文创购物",
-  custom: "MY DISCOVERY / 我的发现",
-  gate: "CITY'S GATES / 古城出入口"
-};
 const catNames = { study: "研学", photo: "拍照", food: "美食", shop: "购物", custom: "自选", gate: "出入口" };
 
 const SVG_FALLBACKS = {
-  map: `<svg viewBox="0 0 400 420" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-    <path d="M168 38 L272 52 L310 112 L292 178 L256 196 L262 246 L236 276 L208 286 L186 346 L142 362 L112 332 L134 252 L116 214 L120 124 L158 112 Z" fill="#C4BD93" stroke="#ABA47B" stroke-width="2"/>
-    <path d="M160 118 L280 124 M130 176 L276 172 M136 232 L250 226 M192 52 L182 338 M234 58 L222 272" stroke="#F7F5EE" stroke-width="3.2" stroke-linecap="round" opacity="0.85"/>
-    <path d="M150 76 L248 84 M142 204 L256 202 M162 288 L220 282" stroke="#F7F5EE" stroke-width="1.8" opacity="0.7"/>
-    <circle cx="256" cy="96" r="22" fill="none" stroke="#F7F5EE" stroke-width="2" opacity="0.8"/>
+  map: `<svg viewBox="0 0 1541 1423" width="100%" height="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M560 120 L1020 140 L1220 260 L1180 480 L1460 560 L1450 740 L1120 790 L1180 960 L980 1080 L1040 1300 L720 1320 L740 1040 L480 940 L400 660 L340 520 L480 280 Z" fill="#C4BD93" stroke="#ABA47B" stroke-width="6"/>
+    <path d="M400 640 L1422 634 M786 1014 L820 165 M786 1014 L963 1259 M620 420 L1120 420 M560 830 L1140 830" stroke="#F7F5EE" stroke-width="14" stroke-linecap="round" opacity="0.88"/>
+    <path d="M520 290 L1060 290 M680 540 L1160 540" stroke="#F7F5EE" stroke-width="8" opacity="0.72"/>
   </svg>`,
   gate: `<svg viewBox="0 0 140 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
     <path d="M22 46 Q70 28 118 46 L112 58 L28 58 Z" fill="#3C545D"/>
@@ -1910,105 +1957,205 @@ document.querySelectorAll("[data-svg]").forEach(el => {
   if (SVG_FALLBACKS[key]) el.innerHTML = SVG_FALLBACKS[key];
 });
 
-// ================= 2. 核心数据配置 =================
+// ================= 3. PDF 33 家正式店铺档案（含高德 GCJ-02 坐标、简介、拍照建议、实拍配图数） =================
 const subPrefMap = {
-  shop: ["艺术手作", "旅行伴手礼", "平价淘杂货", "潮流穿搭"],
-  food: ["地道小吃", "手冲咖啡", "甜品糖水", "微醺餐吧"],
-  study: ["明清遗迹", "宗祠博物馆", "城门古墙", "文化街区"],
-  photo: ["南洋骑楼", "红砖花墙", "老巷光影", "古城夜景"]
+  shop: ["文创书店", "香氛花艺", "黑胶原木", "风物杂货"],
+  food: ["精品咖啡", "糖水甜品", "街头小吃", "正餐小馆"],
+  study: ["非遗手作", "活字印刷", "蓝染蓝晒", "陶瓷胶片"],
+  photo: ["洋楼露台", "花墙街巷", "复古门头", "日咖夜逛"]
 };
 
-const spots = [
-  ["01","南城门","study",12,24,"城门古墙"],["02","东城门遗址","study",25,14,"城门古墙"],["03","新安县衙","study",39,23,"明清遗迹"],["04","信国公文氏祠","study",52,15,"宗祠博物馆"],
-  ["05","古城墙遗址","study",65,27,"城门古墙"],["06","南头古城博物馆","study",77,18,"宗祠博物馆"],["07","历史文化街区","study",86,35,"文化街区"],["08","古城广场","study",69,43,"文化街区"],
-  ["09","骑楼街","photo",54,43,"南洋骑楼"],["10","特色墙面","photo",43,36,"红砖花墙"],["11","老街巷","photo",30,43,"老巷光影"],["12","古建筑门楼","photo",20,55,"老巷光影"],
-  ["13","红砖小巷","photo",35,62,"红砖花墙"],["14","街角花墙","photo",50,58,"红砖花墙"],["15","文创街景","photo",67,61,"南洋骑楼"],["16","古城夜景点","photo",82,56,"古城夜景"],
-  ["17","特色面馆","food",14,72,"地道小吃"],["18","本地小吃店","food",27,79,"地道小吃"],["19","咖啡店","food",41,73,"手冲咖啡"],["20","甜品店","food",55,80,"甜品糖水"],
-  ["21","茶饮店","food",68,72,"甜品糖水"],["22","特色餐厅","food",80,78,"地道小吃"],["23","街边小食","food",91,68,"地道小吃"],["24","休闲餐吧","food",62,88,"微醺餐吧"],
-  ["25","文创店","shop",10,43,"旅行伴手礼"],["26","手作店","shop",18,31,"艺术手作"],["27","设计杂货店","shop",31,28,"平价淘杂货"],["28","古城纪念品店","shop",46,20,"旅行伴手礼"],
-  ["29","艺术商店","shop",59,31,"艺术手作"],["30","特色服饰店","shop",74,36,"潮流穿搭"],["31","生活方式店","shop",87,45,"艺术手作"],["32","创意市集","shop",78,63,"平价淘杂货"]
+const rawShops = [
+  // GROUP 01 咖啡与茶 (01–08)
+  { id:"01", name:"JOHANDY 杂啡铺", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"photo", sub:"洋楼露台", lng:113.92042, lat:22.54232, addr:"中山南街一坊二号", hours:"09:30–21:00", price:"人均 ¥35 左右",
+    desc:"南城门入口第一家，一栋复古小洋楼。二楼露台正好卡在街口上方，坐着能看人从城门进来。柠檬美式是招牌。",
+    tip:"复古楼梯与花砖地面", photoCount:4,
+    captions:["坐落在古城里的杂啡铺","户外街口人文氛围","探店日记 · 南山-Johandy 杂啡铺","南头古城 · Johandy 杂啡铺"] },
+  { id:"02", name:"别处咖啡", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"photo", sub:"洋楼露台", lng:113.92278, lat:22.54412, addr:"中山东街 74 号 E-31", hours:"平日 09:00–19:00／周末 10:00–20:00", price:"人均 ¥40 左右",
+    desc:"三层独栋，被绿植从下到上包住，三楼是户外露营风天台。一楼临街、三楼临天，同一家店能拍出两种季节感。",
+    tip:"三楼天台逆光 + 窗外树影", photoCount:4,
+    captions:["别处咖啡门头绿植","二楼室内唱片墙","ANOTHER COFFEE 窗景","手冲与室内日常"] },
+  { id:"03", name:"集福 GIF COFFEE", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"food", sub:"精品咖啡", lng:113.91975, lat:22.54422, addr:"中山西街 9 号 101", hours:"10:00–19:00", price:"人均 ¥46",
+    desc:"古城人气最高的一家，几乎每次都排队。Dirty 是招牌——冰博客牛奶的甜配浓缩的苦，喝不惯黑咖啡的人也能接受。",
+    tip:"门头很小，适合拍手与杯的特写", photoCount:4,
+    captions:["集福招牌特调杯","杯口焦糖与奶泡细节","世界冠军咖啡店 GIF 集福","集福珈琲 GIF.CO 墙面"] },
+  { id:"04", name:"十日谈 DECAMERON", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"food", sub:"精品咖啡", lng:113.92145, lat:22.54325, addr:"有熊酒店一楼（义学街一坊一带）", hours:"08:30–21:30", price:"人均 ¥48",
+    desc:"可以把杯子端到广场外面坐着喝，看古城人来人往。特调「胭脂」是番茄 + 薄荷 + 咖啡，酸甜里带咖啡的醇。",
+    tip:"广场外坐位，背景是古城街景", photoCount:4,
+    captions:["DECAMERON 十日谈外立面","夜间灯光门头细节","室内中庭树景座位","十日谈南头古城店街景"] },
+  { id:"05", name:"B+ 咖啡", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"food", sub:"精品咖啡", lng:113.92105, lat:22.54422, addr:"中山东街 14 号 101", hours:"07:30–20:00", price:"人均 ¥35 左右",
+    desc:"开门最早的一家。想赶在人流之前拍到空无一人的巷子，先来这里买一杯，再回头走主街，光线和人都刚好。",
+    tip:"清晨巷子的空镜", photoCount:4,
+    captions:["拿铁拉花与贝果","贝果细节特写","B+ cafe & bar 门头","门口绿植与外摆区"] },
+  { id:"06", name:"Runsloth", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"food", sub:"精品咖啡", lng:113.92022, lat:22.54388, addr:"中山南街 94 号", hours:"平日 09:00–20:00／周末 09:30–21:30", price:"人均 ¥40 左右",
+    desc:"名字就是态度——慢。店内节奏很松，坐一下午不会被催，适合走到一半实在走不动的时候。",
+    tip:"窗边座位", photoCount:4,
+    captions:["Runsloth 招牌特调","三层空间与窗景合集","桌面玩偶与下午茶","树懒主题特调杯"] },
+  { id:"07", name:"MEETOO", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"photo", sub:"复古门头", lng:113.91935, lat:22.54535, addr:"西集春景街 62 号", hours:"09:30–21:00", price:"人均 ¥35 左右",
+    desc:"藏在西集，游客少、居民多。想拍「安静的古城」而不是「热闹的古城」，往这边走就对了。",
+    tip:"西集巷子几乎没有商业招牌", photoCount:4,
+    captions:["红砖墙与电镀金属框门头","夜色下的 MEETOO CAFE","门头砖墙特写","绿植与玻璃堂食区"] },
+  { id:"08", name:"星巴克（南头古城店）", pdfGroup:"GROUP 01 · 咖啡与茶", cat:"photo", sub:"日咖夜逛", lng:113.92165, lat:22.54422, addr:"主街沿线", hours:"07:00–22:00", price:"人均 ¥33",
+    desc:"三层分别刷成不同颜色的独栋，对应咖啡从种子、果实到一杯的过程，侧墙有 1971 主题涂鸦。",
+    tip:"街对面切 2x 拍全景", photoCount:4,
+    captions:["小而精致的独栋设计","二楼咖啡文化陈列","南头古城店涂鸦与周边","深色木框玻璃门头"] },
+
+  // GROUP 02 书店 · 文创 · 香氛 (09–18)
+  { id:"09", name:"失散之岛", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"文创书店", lng:113.92155, lat:22.54555, addr:"古城巷内（春景街 72-1 层）", hours:"多在午后营业", price:"",
+    desc:"红砖墙配白色雕花玻璃门，门口一把正红折叠椅。书可以拆封直接读，还有几张阅读桌。",
+    tip:"红色折叠椅是唯一的暖色 · 消费买一本书或一杯饮品", photoCount:4,
+    captions:["红椅与书架窗景","绿树掩映的书店外景","雕花玻璃门与书架","独立书店门头拼图"] },
+  { id:"10", name:"字在（南头古城店）", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"文创书店", lng:113.92045, lat:22.54372, addr:"中山南路 61 号 101", hours:"10:00–22:00", price:"",
+    desc:"以活字印刷为主题的文创店，一整面墙的铅字与活字盘。可以自己排版印一张带走，是最有「手感」的伴手礼。",
+    tip:"铅字墙特写 · 体验活字印刷工作坊", photoCount:4,
+    captions:["木盒活字盘细节","手工挑选铅字","字在 ZIZAI 门头","深圳主题印章明信片"] },
+  { id:"11", name:"超级黑胶工厂 VINYL&FRIENDS", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"黑胶原木", lng:113.92055, lat:22.54610, addr:"if 工厂内（A2 栋）", hours:"12:00–22:00", price:"帆布袋 ¥79/99",
+    desc:"黑胶控的天堂，整面墙的唱片，还循环放老歌。店里有印着黑胶图案的帆布袋（¥79／99），买来当道具正好。",
+    tip:"靠在唱片墙侧拍 · 消费进店建议消费", photoCount:4,
+    captions:["超级黑胶工厂门口","唱片机试听台","复古店门与周边","夜间霓虹招牌"] },
+  { id:"12", name:"木墨 MUMO", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"黑胶原木", lng:113.92065, lat:22.54545, addr:"古城巷内（春景北街 14 号）", hours:"10:00–21:00", price:"",
+    desc:"主打原木家具与手工木雕摆件，现在还入驻了小众设计师的香氛和首饰。进店先闻到的是淡淡原木味。",
+    tip:"原木色系，穿白或米色最贴 · 氛围温润、安静", photoCount:4,
+    captions:["双手做工花艺摆件","木墨绿植庭院与猫店长","日咖夜酒与编织纹理","原木家具材质细节"] },
+  { id:"13", name:"PHILOSENSE 馡凡香水剧场", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"香氛花艺", lng:113.92318, lat:22.54424, addr:"中山东街 78 号 101 室", hours:"10:00–22:00", price:"",
+    desc:"调香师按剧场故事来调每一款香，没有工业感，都是贴近生活的日常味道。推荐「慰藉」——温柔木质调带一点清甜果香。",
+    tip:"香水瓶阵列 · 提示可试香，别一次喷太多", photoCount:3,
+    captions:["红砖拱门入口","剧场主题香氛陈列台","香水瓶与故事卡片"] },
+  { id:"14", name:"Finger shop", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"风物杂货", lng:113.91920, lat:22.54418, addr:"古城巷内（中山西街 20 号）", hours:"10:00–22:00", price:"",
+    desc:"少女心聚集地：满墙小熊玩偶、萌系手办，还有印着深圳元素的冰箱贴和可爱杯子。逛着逛着就忍不住买。",
+    tip:"玩偶墙前蹲下 · 适配奶油白穿搭", photoCount:4,
+    captions:["深圳元素文创贴纸区","弧形木窗门头","玩偶墙合影","Nunu Room 联名展区"] },
+  { id:"15", name:"Rainy&cloudy", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"photo", sub:"花墙街巷", lng:113.92038, lat:22.54348, addr:"古城巷内（中山南街 53-1 号）", hours:"11:00–21:00", price:"",
+    desc:"耳环、戒指、手链、项链都是小众款，不容易撞。门口那丛绣球花才是重点——站在花边借自然光拍，温柔又出片。",
+    tip:"门口绣球花 · 提示别踩进花坛", photoCount:4,
+    captions:["古城独栋外立面","Rainy&Cloudy 橙色招牌","饰品与杂货陈列","门口街景人像"] },
+  { id:"16", name:"Tinta del Cielo", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"风物杂货", lng:113.92042, lat:22.54362, addr:"古城巷内（中山南街 59 号）", hours:"11:00–21:30", price:"",
+    desc:"色彩的世界：水杯、包包、首饰、头饰，全都是高饱和的糖果色，摆得满满当当，看着就心情好。",
+    tip:"货架色彩墙 · 适配纯色衣服，别抢色", photoCount:4,
+    captions:["糖果色陶瓷杯与编织包","深圳主题插画冰箱贴","Tinta del Cielo 门头","清代老院子色彩空间"] },
+  { id:"17", name:"nano market", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"shop", sub:"风物杂货", lng:113.92298, lat:22.54428, addr:"中山东街 76 号", hours:"平日 12:00–22:00／周末 10:00–22:00", price:"",
+    desc:"选品偏年轻化的杂货铺，周末开门更早。适合作为「东街段」的歇脚点——逛完县衙、文氏祠顺路进来。",
+    tip:"门口陈列 · 位置东街中段", photoCount:4,
+    captions:["民艺织物挂毯陈列","东街民艺市集广场","复古绿植与手工摆件","城市躲猫猫展览装置"] },
+  { id:"18", name:"猫少年的花", pdfGroup:"GROUP 02 · 书店·文创·香氛", cat:"photo", sub:"花墙街巷", lng:113.91968, lat:22.54495, addr:"西集春景街二坊 6 号 1F", hours:"10:00–22:00", price:"一小束 ¥30–60",
+    desc:"一家花店，花束包装审美在线。买一小束当道具比自带假花自然十倍，价格也友好。",
+    tip:"捧花特写 · 消费一小束 ¥30–60", photoCount:4,
+    captions:["手提花篮插花作品","门廊蓝紫色花艺墙","多肉与鲜花陈列","橱窗花艺装置"] },
+
+  // GROUP 03 手作工坊 (19–25)
+  { id:"19", name:"字在 · 活字印刷工作坊", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"活字印刷", lng:113.92105, lat:22.54475, addr:"源野集体系", hours:"按排期开放", price:"",
+    desc:"与文字对话，从雕版印刷一路摸到活字印刷的起源。自己排版、上墨、拓印，最后带走一张自己印的纸。",
+    tip:"排版与刷墨的手部特写 · 预约关注「南头古城」公众号", photoCount:4,
+    captions:["印刷体验手册与盖章","整面活字字库架","活字文化展馆内景","字在×往来活字茶空间"] },
+  { id:"20", name:"染寺 · 苗艺工作坊", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"蓝染蓝晒", lng:113.92135, lat:22.54488, addr:"源野集体系", hours:"按排期开放", price:"",
+    desc:"苗族蓝染，了解这门手艺的历史再做一块自己的布。蓝色的深浅全靠浸染次数，出来的纹样没有两块一样。",
+    tip:"晾晒中的蓝染布 · 提示会沾色，别穿浅色", photoCount:1,
+    captions:["蓝染工作台体验实景"] },
+  { id:"21", name:"捉影 · 蓝晒工作坊", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"蓝染蓝晒", lng:113.92168, lat:22.54495, addr:"源野集体系", hours:"按排期开放（耗时约 1–2 小时）", price:"",
+    desc:"蓝晒（cyanotype）是最上镜的一种手工——把植物摆在涂好药水的纸上晒，冲洗后得到一片普鲁士蓝的影子。",
+    tip:"晒版过程与成品并排 · 耗时约 1–2 小时", photoCount:4,
+    captions:["小巷入口指引","植物蓝晒实体诗成品","悬垂晾晒的蓝晒作品","深色布面细密蓝晒纹样"] },
+  { id:"22", name:"無感制物所 · 制食器体验课", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"陶瓷胶片", lng:113.92188, lat:22.54472, addr:"源野集体系", hours:"按排期开放", price:"",
+    desc:"以自然的意象呈现时间的痕迹，用安静的方式延续东方美学。做的是能真正带回家用的食器。",
+    tip:"拉坯的手部 · 提示成品需烧制，不能当天带走", photoCount:1,
+    captions:["制食器课长桌与手工器皿"] },
+  { id:"23", name:"一树南头 · 漂流工作坊", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"陶瓷胶片", lng:113.92215, lat:22.54485, addr:"源野集体系", hours:"按排期开放（全程约 2 小时）", price:"",
+    desc:"发一台一次性胶卷相机，让你去观察街道、记录生活点滴。对拍照的人来说，这是最「内行」的一种玩法。",
+    tip:"用胶片拍古城，本身就是内容 · 耗时全程约 2 小时", photoCount:3,
+    captions:["手写拍立得打卡墙","木质相机与复古陈设","窗光下举起一次性胶卷机"] },
+  { id:"24", name:"闲云居", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"非遗手作", lng:113.92095, lat:22.54515, addr:"春景街 36 号", hours:"有长期手作排期", price:"",
+    desc:"非遗拓印、串珠 DIY 这类体验长期有排期（2026 年这一轮从 6 月排到了次年 6 月）。不用等特定节日。",
+    tip:"拓印的纹样 · 预约现场或公众号（暂缺实拍，待补充）", photoCount:0,
+    captions:[] },
+  { id:"25", name:"探艺 Letmego 风物商店", pdfGroup:"GROUP 03 · 手作工坊", cat:"study", sub:"非遗手作", lng:113.92120, lat:22.54528, addr:"春景街 41 号", hours:"周二至周日 10:00–21:00／周一 14:00–21:00", price:"",
+    desc:"一间风物商店，长期做小型展览——近期的《失语的走廊》就在里面。店面不大，但东西都很耐看。",
+    tip:"展品前的剪影 · 提示周一 14:00 后才开", photoCount:4,
+    captions:["探艺 Letmego 南头古城店门头","《失语的走廊》民艺展览","室内民艺展柜","民艺人物影像展板"] },
+
+  // GROUP 04 小馆子 (26–33)
+  { id:"26", name:"泰曼 · 手作泰餐", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"正餐小馆", lng:113.92255, lat:22.54425, addr:"中山东街 70 号（古城内）", hours:"11:30–21:30", price:"人均 ¥80+",
+    desc:"正餐首选，店里是满满的东南亚风格，环境安逸。冬阴功汤是必点，酸辣开胃，大虾、蘑菇、青口贝分量很足。",
+    tip:"店内暖光配木质桌椅 · 提示饭点排队，错峰去", photoCount:4,
+    captions:["店内东南亚木质装修","泰式风味料理特写","特色酸辣凉拌小吃","泰曼街头菠萝炒饭"] },
+  { id:"27", name:"非凡小食", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"街头小吃", lng:113.92028, lat:22.54300, addr:"中山南街 40 号（街巷内）", hours:"11:00–22:00", price:"人均 ¥20+",
+    desc:"宝藏小吃。炸鸡排会把九层塔一起炸，外皮酥、里面嫩，还带九层塔的香。另有南乳鸡翼、甘梅地瓜、炸杏鲍菇，¥12–28。",
+    tip:"热气腾腾的炸物特写 · 提示趁热吃，凉了差一半", photoCount:4,
+    captions:["深圳非凡小食档口","街巷美食手举打卡","炸鸡排、炸鲜虾云吞拼盘","非凡小食石墙门头"] },
+  { id:"28", name:"九街烧腊", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"正餐小馆", lng:113.92195, lat:22.54442, addr:"古城内（中山东街/春景街交汇）", hours:"11:00–21:00", price:"人均 ¥45",
+    desc:"叉烧、烧鹅皮脆多汁，是那种「吃饭堂」的实在感。想正经吃一顿又不贵，选它。",
+    tip:"挂在窗口的烧腊 · 提示饭点人多", photoCount:4,
+    captions:["古城地道烧腊拼盘","街巷美食实拍","老街烧腊卤味门面","橱窗挂炉烧鹅叉烧"] },
+  { id:"29", name:"梁氏兴裕甜品", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"糖水甜品", lng:113.92135, lat:22.54410, addr:"古城内", hours:"12:00–22:30", price:"¥15–20",
+    desc:"杨枝甘露、双皮奶这类港式糖水，价格实在。走累了坐下来吃一碗，比咖啡更能续命。",
+    tip:"糖水碗配木桌 · 提示下午茶时段人多", photoCount:1,
+    captions:["古城传统糕点与甜品档口"] },
+  { id:"30", name:"彬妈糖水", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"糖水甜品", lng:113.92044, lat:22.54306, addr:"中山南街 41 号（古城内）", hours:"12:00–23:00", price:"人均 ¥22 左右",
+    desc:"大满贯糖水料足到溢出，一勺下去什么都有。两个人分一碗再配点小吃就够了。",
+    tip:"料足的大满贯 · 适配逛完西片区回来吃", photoCount:4,
+    captions:["彬妈糖水复古木桌","暖灯下的木质门头","料足大满贯糖水特写","室内简洁吧台与海报"] },
+  { id:"31", name:"酷矿冰淇淋", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"糖水甜品", lng:113.92062, lat:22.54420, addr:"中山东街 1 号 101（古城内）", hours:"10:00–22:30", price:"¥8–28",
+    desc:"美人鱼造型的 gelato，颜值直接拉满。开心果味和抹茶味评价最好，路过可以试吃再买。",
+    tip:"举着冰淇淋的半身 · 提示化得快，先拍后吃", photoCount:4,
+    captions:["美人鱼造型双球甜筒","古城街景手举冰淇淋","门店拱门外景","开心果与抹茶双球杯"] },
+  { id:"32", name:"荟真集", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"糖水甜品", lng:113.92032, lat:22.54325, addr:"中山南街（古城内）", hours:"10:30–22:00", price:"人均 ¥25",
+    desc:"澳门奶茶 + 葡式糖水，奶茶顺滑、茶味足。拿在手里边走边喝，是最方便的「道具」。",
+    tip:"奶茶杯配街景 · 提示少糖更好喝", photoCount:4,
+    captions:["荟真集招牌澳门抹茶奶茶","木糠布丁与饮品拼盘","街景手拿澳门奶茶","蓝色遮阳棚门头"] },
+  { id:"33", name:"余庆池", pdfGroup:"GROUP 04 · 小馆子", cat:"food", sub:"街头小吃", lng:113.92048, lat:22.54408, addr:"中山南街 84 号（县衙路口）", hours:"10:00–22:00", price:"人均 ¥18",
+    desc:"非遗传统的丝袜奶茶，茶味厚重带回甘。和荟真集是两种路子，可以各买一杯对比着喝。",
+    tip:"复古杯身 · 提示热的比冻的好喝", photoCount:4,
+    captions:["中英街余庆池非遗丝袜奶茶","绿色复古外带档口","鸡蛋仔配丝袜奶茶","奶茶始于 1913 菜单牌"] }
 ];
 
-const spotDescriptions = {
-  "01": "岭南重镇现存代表城门，南头古城的精神起点与历史象征。",
-  "02": "见证千百年岁月变迁的历史砖石遗迹，具有很高的考证价值。",
-  "03": "明清时期新安县政权所在地，展现古代基层官署风貌与历史公文陈列。",
-  "04": "纪念文天祥后裔的典型岭南宗祠建筑，三开间两进布局，砖雕灰塑精致。",
-  "05": "明代古城墙夯土包砖遗存，沉淀着深圳作为海防堡垒的厚重记忆。",
-  "06": "系统展陈新安县立县以来的历史脉络与深港同源文化，研学必到第一站。",
-  "07": "老建筑与现代艺术展馆交错共融的聚落，经常举办青年文化快闪与艺术展。",
-  "08": "古城核心休闲集散地，连接各主干巷道的开放式公众交流空间。",
-  "09": "融合南洋风情与岭南特色的连廊骑楼，阳光斜射时光影极佳，拍照打卡首选。",
-  "10": "保留岁月斑驳肌理的砖石墙面与现代艺术涂鸦呼应，极具出片质感。",
-  "11": "幽静曲折的城中村原生态巷弄，市井生活与绿植盆栽相映成趣。",
-  "12": "雕花考究的民居大门与木制门楼，定格岭南传统民居的岁月余温。",
-  "13": "由红砖堆砌的蜿蜒窄巷，色彩饱和度高，深受胶片摄影爱好者喜爱。",
-  "14": "街角居民精心培育的三角梅瀑布与绿植花墙，转角遇见浪漫风景。",
-  "15": "青年设计师创意招牌与复古街灯相衬，处处散落着灵动的生活美学。",
-  "16": "入夜后暖光灯带点亮古建飞檐与弄堂，夜景拍照沉浸感极强。",
-  "17": "深耕多年的传统手工面馆，筋道手擀面与老火高汤令人回味无穷。",
-  "18": "地道广式肠粉与潮汕特色糖水，原汁原味还原深圳本地市井烟火气。",
-  "19": "藏在古建深处的手冲独立咖啡馆，窗外即是老树瓦檐，适合静坐休憩。",
-  "20": "主打低糖手工糕点与东方冷萃甜品，颜值与口感俱佳的下午茶聚集地。",
-  "21": "新中式茶空间，提供清雅纯茶与现泡特调，茶香氤氲中感受慢生活。",
-  "22": "主理人精选岭南风味融合菜，环境静谧雅致，适合小聚与正餐体验。",
-  "23": "随时可以带走的外带香脆小食，边走边逛不可错过的舌尖伴侣。",
-  "24": "暮色降临后开放的精酿与轻食微醺空间，提供惬意浪漫的微醺体验。",
-  "25": "古城文化周边与深圳主题文创设计品，将古城记忆带回家的好物聚集地。",
-  "26": "皮具、陶艺与银饰手工体验坊，可在手作人指导下制作专属纪念品。",
-  "27": "淘选来自全球独立设计师的日用器皿与奇趣杂货，充满生活灵感。",
-  "28": "官方认证纪念明信片与主题印章收集处，盖章控不可错过的打卡点。",
-  "29": "展示青年艺术家原作、版画与限量周边的微型艺术空间。",
-  "30": "精选中式改良旗袍、复古织物与原创设计师服装的宝藏衣橱。",
-  "31": "集书籍、香氛、黑胶唱片与生活器物于一体的复合美学空间。",
-  "32": "周末定期开市的青年创意集市，汇集手作摊主与插画师的灵感创作。"
-};
+// 将所有店铺的 GCJ-02 经纬度实时换算为地图 (x%, y%) 坐标
+const spots = rawShops.map(s => {
+  const pos = gcj02ToMapPercent(s.lng, s.lat);
+  return { ...s, x: pos.x, y: pos.y, px: pos.px, py: pos.py };
+});
 
-const gatesAndParking = [
-  { id: "g_south", name: "南门（主入口）", x: 12, y: 22, isParking: false },
-  { id: "g_east", name: "东门出入口", x: 26, y: 12, isParking: false },
-  { id: "g_west", name: "西门出入口", x: 12, y: 62, isParking: false },
-  { id: "g_north", name: "北门牌坊", x: 86, y: 16, isParking: false },
-  { id: "g_ne", name: "东北门（中山公园）", x: 74, y: 8, isParking: false },
-  { id: "g_wutong", name: "梧桐街出入口", x: 46, y: 88, isParking: false },
-  { id: "p_south", name: "南门生态停车场", x: 6, y: 32, isParking: true }
+// 古城出入口与停车场（高德 GCJ-02 -> PS 1541×1423 实时换算，其中东门/南门/停车场严格重合标记点）
+const rawGates = [
+  { id: "g_south", name: "南门（主入口）", lng: 113.92035, lat: 22.54215, isParking: false, desc: "古城南大门（宁南门），毗邻南头古城牌坊与深南大道，是初访最核心的标志性主入口。" },
+  { id: "g_east", name: "东门出入口", lng: 113.92425, lat: 22.54430, isParking: false, desc: "连接中山东街与南山大道，步行至中山公园西门与东门遗址十分便捷。" },
+  { id: "g_west", name: "西门出入口", lng: 113.91815, lat: 22.54425, isParking: false, desc: "直通中山西街创意街区与西集市巷弄，感受浓郁的市井烟火气。" },
+  { id: "g_north", name: "北门牌坊", lng: 113.92055, lat: 22.54695, isParking: false, desc: "古城北部拱辰门遗址与北城墙步道入口，环境清幽静谧。" },
+  { id: "g_ne", name: "东北门（中山公园）", lng: 113.92345, lat: 22.54625, isParking: false, desc: "无缝接驳中山公园林荫绿道，适合公园漫步与古城探索的连通路线。" },
+  { id: "g_wutong", name: "梧桐街出入口", lng: 113.92260, lat: 22.54310, isParking: false, desc: "连接古城东南侧居民区与梧桐街的便民出入口，感受城村共生肌理。" },
+  { id: "p_south", name: "南门生态停车场", lng: 113.92143, lat: 22.54076, isParking: true, desc: "南头古城南门停车场（深南大道侧），配备充电桩，自驾出行推荐停靠首选。" }
 ];
 
-const gateDescriptions = {
-  "g_south": "古城南大门，毗邻南头古城牌坊与深南大道，是初访最核心的标志性主入口。",
-  "g_east": "连接东门遗址与周边生活街区，步行至中山公园东门与古树广场十分便捷。",
-  "g_west": "直通西街创意市集与特色小吃街区，充满热闹的生活气息与浓郁烟火气。",
-  "g_north": "古城北部牌坊出入口，连接北城墙遗址步道，环境清幽静谧。",
-  "g_ne": "无缝接驳中山公园北区的林荫绿道，适合公园漫步与古城探索的连通路线。",
-  "g_wutong": "连接古城居民区与梧桐街的便民出入口，原汁原味感受城村共生肌理。",
-  "p_south": "南门生态地下及地面停车场，配备新能源充电桩，自驾出行推荐停靠首选。"
-};
+const gatesAndParking = rawGates.map(g => {
+  const pos = gcj02ToMapPercent(g.lng, g.lat);
+  return { ...g, x: pos.x, y: pos.y, px: pos.px, py: pos.py };
+});
 
+// 便民设施（同步使用 GCJ-02 -> 地图百分比换算）
 const facilities = [
-  { id: "T1", type: "toilet", name: "南门入口公厕", x: 18, y: 16, info: "近南城门游客服务中心，配有无障碍设施。" },
-  { id: "T2", type: "toilet", name: "骑楼街中段公厕", x: 48, y: 38, info: "古城主街中段，24小时开放。" },
-  { id: "T3", type: "toilet", name: "古城广场便民公厕", x: 64, y: 48, info: "古城广场东侧，配有母婴室。" },
-  { id: "T4", type: "toilet", name: "西集市公厕", x: 22, y: 68, info: "特色面馆与休闲街区交汇处。" },
-  { id: "M1", type: "medical", name: "南门游客医疗急救点", x: 9, y: 22, info: "南门游客中心内，配备AED自动除颤仪与专业急救药箱。" },
-  { id: "M2", type: "medical", name: "中区红十字便民医疗站", x: 72, y: 24, info: "新安县衙与博物馆之间，提供外伤清创包扎与应急求助。" }
-];
+  { id: "T1", type: "toilet", name: "南门入口公厕", lng: 113.92075, lat: 22.54185, info: "近南城门游客服务中心，配有无障碍设施。" },
+  { id: "T2", type: "toilet", name: "十字街中段公厕", lng: 113.92075, lat: 22.54405, info: "古城主街交汇处，24小时开放。" },
+  { id: "T3", type: "toilet", name: "大家乐广场公厕", lng: 113.92185, lat: 22.54470, info: "东街与源野集交界广场旁，配有母婴室。" },
+  { id: "T4", type: "toilet", name: "西集春景街公厕", lng: 113.91910, lat: 22.54505, info: "西集巷弄北侧。" },
+  { id: "M1", type: "medical", name: "南门游客医疗急救点", lng: 113.92005, lat: 22.54195, info: "南门游客中心内，配备AED自动除颤仪与专业急救药箱。" },
+  { id: "M2", type: "medical", name: "中区红十字便民医疗站", lng: 113.92225, lat: 22.54445, info: "中山东街中段，提供外伤清创包扎与应急求助。" }
+].map(f => ({ ...f, ...gcj02ToMapPercent(f.lng, f.lat) }));
 
+// 古城萌宠（同步使用 GCJ-02 -> 地图百分比换算）
 const pets = [
-  { id: "P1", kind: "cat", name: "花花（橘白猫）", icon: "🐱", x: 26, y: 34, tag: "常驻古树下", desc: "性格极其温顺亲人，喜欢在东门古树花坛晒太阳，最享受被轻轻挠下巴。" },
-  { id: "P2", kind: "dog", name: "元宝（柴犬）", icon: "🐶", x: 45, y: 28, tag: "文创店店长", desc: "杂货店的迎宾柴柴，性格活泼热情，经常乖乖趴在门口地毯上看往来游客。" },
-  { id: "P3", kind: "cat", name: "黑脸（奶牛猫）", icon: "🐱", x: 60, y: 20, tag: "祠堂巡逻官", desc: "文氏祠堂附近的原住民猫咪，矫健灵敏，常常在高墙和青瓦檐上漫步。" },
-  { id: "P4", kind: "dog", name: "旺财（柯基）", icon: "🐶", x: 38, y: 65, tag: "咖啡馆迎宾", desc: "红砖小巷咖啡店附近的短腿柯基，走起路来屁股一扭一扭，极具亲和力。" },
-  { id: "P5", kind: "cat", name: "团子（英短蓝猫）", icon: "🐱", x: 70, y: 55, tag: "书店打盹王", desc: "生活方式书店的店猫，常在临街窗台书堆上睡懒觉，不吵不闹特别治愈。" },
-  { id: "P6", kind: "dog", name: "可乐（泰迪犬）", icon: "🐶", x: 80, y: 40, tag: "街区交际花", desc: "文创街区主理人收养的泰迪，穿戴时尚小背心，非常喜欢和小朋友打招呼。" },
-  { id: "P7", kind: "cat", name: "阿咪（三花猫）", icon: "🐱", x: 18, y: 50, tag: "门楼守护者", desc: "老建筑门楼前的小三花，眼神灵动、特别上镜，对逗猫棒毫无抵抗力。" },
-  { id: "P8", kind: "dog", name: "皮皮（金毛犬）", icon: "🐶", x: 58, y: 76, tag: "茶空间暖男", desc: "茶饮店老板养的大金毛，性情温厚敦实，常趴在店外长椅旁陪游客乘凉。" }
-];
+  { id: "P1", kind: "cat", name: "花花（橘白猫）", icon: "🐱", lng: 113.92060, lat: 22.54265, tag: "南街老树下", desc: "性格极其温顺亲人，喜欢在南门古树花坛晒太阳，最享受被轻轻挠下巴。" },
+  { id: "P2", kind: "dog", name: "元宝（柴犬）", icon: "🐶", lng: 113.92065, lat: 22.54535, tag: "木墨店长", desc: "木墨附近的迎宾柴柴，性格活泼热情，经常乖乖趴在门口看往来游客。" },
+  { id: "P3", kind: "cat", name: "黑脸（奶牛猫）", icon: "🐱", lng: 113.92245, lat: 22.54455, tag: "祠堂巡逻官", desc: "文氏祠堂附近的原住民猫咪，矫健灵敏，常常在高墙和青瓦檐上漫步。" },
+  { id: "P4", kind: "dog", name: "旺财（柯基）", icon: "🐶", lng: 113.91950, lat: 22.54430, tag: "西街迎宾", desc: "中山西街咖啡店附近的短腿柯基，走起路来屁股一扭一扭，极具亲和力。" },
+  { id: "P5", kind: "cat", name: "团子（英短蓝猫）", icon: "🐱", lng: 113.92145, lat: 22.54545, tag: "书店打盹王", desc: "失散之岛附近的店猫，常在临街窗台书堆上睡懒觉，不吵不闹特别治愈。" },
+  { id: "P6", kind: "dog", name: "可乐（泰迪犬）", icon: "🐶", lng: 113.92310, lat: 22.54415, tag: "东街交际花", desc: "东街文创主理人收养的泰迪，穿戴时尚小背心，喜欢和游客打招呼。" },
+  { id: "P7", kind: "cat", name: "阿咪（三花猫）", icon: "🐱", lng: 113.91960, lat: 22.54510, tag: "花店守护者", desc: "西集春景街花店门口的小三花，眼神灵动特别上镜，对逗猫棒毫无抵抗力。" },
+  { id: "P8", kind: "dog", name: "皮皮（金毛犬）", icon: "🐶", lng: 113.92125, lat: 22.54335, tag: "广场暖男", desc: "义学街广场旁的大金毛，性情温厚敦实，常趴在长椅旁陪游客乘凉。" }
+].map(p => ({ ...p, ...gcj02ToMapPercent(p.lng, p.lat) }));
 
-// ================= 3. 全局状态 =================
+// ================= 4. 全局状态 =================
 let activeTab = "plan";
 let needRecommend = true;
 let selectedTheme = "shop";
-let selectedSubPrefs = new Set(["艺术手作", "旅行伴手礼"]);
+let selectedSubPrefs = new Set(["文创书店", "香氛花艺"]);
 
 let selected = new Set();
 let customSpotsList = [];
@@ -2021,10 +2168,10 @@ let lastFacilityFocus = null;
 let startEndpoint = null;
 let endEndpoint = null;
 let currentEndpointTarget = "start";
-let cachedUserCoords = { x: 30, y: 40 };
+let cachedUserCoords = gcj02ToMapPercent(113.92045, 22.54320); // 默认参考点：中山南街中段
 let pinCoord = { x: 50, y: 50 };
 
-// ================= 4. 地图缩放与拖拽控制器 =================
+// ================= 5. 地图缩放与拖拽控制器 =================
 class InteractiveMapViewport {
   constructor(viewportId, stageId, options = {}) {
     this.viewport = document.getElementById(viewportId);
@@ -2034,7 +2181,7 @@ class InteractiveMapViewport {
     this.tx = 0;
     this.ty = 0;
     this.minScale = 1;
-    this.maxScale = 3.5;
+    this.maxScale = 3.8;
     this.pointers = new Map();
     this.didDrag = false;
     this.pinchStartDist = 0;
@@ -2051,8 +2198,8 @@ class InteractiveMapViewport {
       btn.addEventListener("click", e => {
         e.stopPropagation();
         const action = btn.getAttribute("data-zoom");
-        if (action === "in") this.zoomAroundCenter(1.3);
-        else if (action === "out") this.zoomAroundCenter(1 / 1.3);
+        if (action === "in") this.zoomAroundCenter(1.32);
+        else if (action === "out") this.zoomAroundCenter(1 / 1.32);
         else this.reset();
       });
     });
@@ -2168,7 +2315,7 @@ class InteractiveMapViewport {
 
 const zoomControllers = {};
 
-// ================= 5. 页面标签切换 =================
+// ================= 6. 页面标签切换 =================
 function switchTab(tab) {
   activeTab = tab;
   const labels = { plan: "定制路线", explore: "探索地图", journey: "我的旅程" };
@@ -2187,7 +2334,7 @@ function switchTab(tab) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ================= 6. TAB 1：定制路线与推荐 =================
+// ================= 7. TAB 1：定制路线与推荐 =================
 function answerQ1(need) {
   needRecommend = need;
   document.getElementById("q1-yes").classList.toggle("active", need);
@@ -2226,13 +2373,13 @@ function renderSubPrefs() {
 
 function generateRecommendations() {
   const routeA = pickSpotsForPreference(selectedTheme, Array.from(selectedSubPrefs));
-  const routeB = pickSpotsForPreference(selectedTheme, Array.from(selectedSubPrefs), routeA.map(s => s[0]));
+  const routeB = pickSpotsForPreference(selectedTheme, Array.from(selectedSubPrefs), routeA.map(s => s.id));
 
   const container = document.getElementById("routes-container");
   container.innerHTML = "";
 
   const data = [
-    { title: `${catNames[selectedTheme]}寻宝 · 精选路线 A`, tag: "平衡省时", theme: catNames[selectedTheme], spots: routeA },
+    { title: `${catNames[selectedTheme]}寻宝 · 精选路线 A`, tag: "顺路不绕", theme: catNames[selectedTheme], spots: routeA },
     { title: `${catNames[selectedTheme]}漫游 · 深度路线 B`, tag: "小巷慢游", theme: catNames[selectedTheme], spots: routeB }
   ];
 
@@ -2240,7 +2387,7 @@ function generateRecommendations() {
     const card = document.createElement("div");
     card.className = "route-card";
     card.onclick = () => openRouteMapModal(r);
-    const pills = r.spots.map(s => `<span class="route-pill">${s[1]}</span>`).join("");
+    const pills = r.spots.map(s => `<span class="route-pill">${s.name}</span>`).join("");
     card.innerHTML = `
       <div class="route-card-top">
         <span class="route-card-tag">${r.tag}</span>
@@ -2257,8 +2404,8 @@ function generateRecommendations() {
 
 function pickSpotsForPreference(pref, subPrefs = [], excludeIds = []) {
   const shuffle = arr => [...arr].sort(() => 0.5 - Math.random());
-  const poolPrimary = spots.filter(s => s[2] === pref && !excludeIds.includes(s[0]));
-  const poolSubMatched = subPrefs.length ? poolPrimary.filter(s => subPrefs.includes(s[5])) : [];
+  const poolPrimary = spots.filter(s => s.cat === pref && !excludeIds.includes(s.id));
+  const poolSubMatched = subPrefs.length ? poolPrimary.filter(s => subPrefs.includes(s.sub)) : [];
   const poolSubRest = poolPrimary.filter(s => !poolSubMatched.includes(s));
 
   let picked = [];
@@ -2266,14 +2413,14 @@ function pickSpotsForPreference(pref, subPrefs = [], excludeIds = []) {
   picked = picked.slice(0, 3);
 
   if (pref !== "food") {
-    picked.push(...shuffle(spots.filter(s => s[2] === "food" && !excludeIds.includes(s[0]))).slice(0, 1));
+    picked.push(...shuffle(spots.filter(s => s.cat === "food" && !excludeIds.includes(s.id))).slice(0, 1));
     const otherCats = ["study", "photo", "shop"].filter(c => c !== pref);
-    picked.push(...shuffle(spots.filter(s => otherCats.includes(s[2]) && !excludeIds.includes(s[0]) && !picked.some(p => p[0] === s[0]))).slice(0, 1));
+    picked.push(...shuffle(spots.filter(s => otherCats.includes(s.cat) && !excludeIds.includes(s.id) && !picked.some(p => p.id === s.id))).slice(0, 1));
   } else {
-    picked.push(...shuffle(spots.filter(s => s[2] !== "food" && !excludeIds.includes(s[0]))).slice(0, 2));
+    picked.push(...shuffle(spots.filter(s => s.cat !== "food" && !excludeIds.includes(s.id))).slice(0, 2));
   }
   if (picked.length < 5) {
-    const rem = spots.filter(s => !picked.some(p => p[0] === s[0]));
+    const rem = spots.filter(s => !picked.some(p => p.id === s.id));
     picked.push(...shuffle(rem).slice(0, 5 - picked.length));
   }
   return picked;
@@ -2282,7 +2429,7 @@ function pickSpotsForPreference(pref, subPrefs = [], excludeIds = []) {
 function openRouteMapModal(routeData) {
   document.getElementById("rModalTitle").textContent = routeData.title;
   document.getElementById("rModalMeta").textContent = `约 2 小时 · ${routeData.spots.length} 个点位 · ${routeData.theme}主题`;
-  document.getElementById("rModalChain").textContent = routeData.spots.map(s => s[1]).join(" → ");
+  document.getElementById("rModalChain").textContent = routeData.spots.map(s => s.name).join(" → ");
 
   const svg = document.getElementById("preview-lines");
   const layer = document.getElementById("preview-nodes-layer");
@@ -2292,10 +2439,10 @@ function openRouteMapModal(routeData) {
   for (let i = 0; i < routeData.spots.length - 1; i++) {
     const a = routeData.spots[i], b = routeData.spots[i + 1];
     const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    l.setAttribute("x1", a[3] + "%");
-    l.setAttribute("y1", a[4] + "%");
-    l.setAttribute("x2", b[3] + "%");
-    l.setAttribute("y2", b[4] + "%");
+    l.setAttribute("x1", a.x + "%");
+    l.setAttribute("y1", a.y + "%");
+    l.setAttribute("x2", b.x + "%");
+    l.setAttribute("y2", b.y + "%");
     l.setAttribute("class", "routeEdge dashed");
     l.style.stroke = "#B75C42";
     svg.appendChild(l);
@@ -2303,12 +2450,11 @@ function openRouteMapModal(routeData) {
 
   routeData.spots.forEach((s, idx) => {
     const n = document.createElement("div");
-    n.className = "node" + (selected.has(s[0]) ? " added" : "");
-    n.style.left = s[3] + "%";
-    n.style.top = s[4] + "%";
-    n.style.background = colors[s[2]];
+    n.className = "node" + (selected.has(s.id) ? " added" : "");
+    n.style.left = s.x + "%";
+    n.style.top = s.y + "%";
+    n.style.background = colors[s.cat];
     n.textContent = idx + 1;
-    // 在推荐路线里点击景点，同样打开屏幕居中大弹窗
     n.onclick = e => {
       e.stopPropagation();
       openSpotModal(s);
@@ -2317,9 +2463,9 @@ function openRouteMapModal(routeData) {
 
     const lbl = document.createElement("div");
     lbl.className = "nodeLabel";
-    lbl.textContent = s[1];
-    lbl.style.left = s[3] + "%";
-    lbl.style.top = s[4] + "%";
+    lbl.textContent = s.name;
+    lbl.style.left = s.x + "%";
+    lbl.style.top = s.y + "%";
     lbl.onclick = e => {
       e.stopPropagation();
       openSpotModal(s);
@@ -2329,11 +2475,10 @@ function openRouteMapModal(routeData) {
 
   document.getElementById("rModalApplyBtn").onclick = () => {
     selected.clear();
-    routeData.spots.forEach(s => selected.add(s[0]));
+    routeData.spots.forEach(s => selected.add(s.id));
     updateAll();
     closeModals();
     showToast(`已导入路线：${routeData.title}`);
-    // 选完推荐路线后跳到大地图（探索地图），不再跳到我的旅程
     switchTab("explore");
   };
 
@@ -2341,7 +2486,7 @@ function openRouteMapModal(routeData) {
   openModal("route-map-modal");
 }
 
-// ================= 7. TAB 2：探索地图与搜索 =================
+// ================= 8. TAB 2：探索地图与搜索 =================
 function handleSearchInput() {
   const val = document.getElementById("searchInput").value;
   document.getElementById("searchClearBtn").style.display = val ? "inline-block" : "none";
@@ -2349,9 +2494,7 @@ function handleSearchInput() {
   renderExploreMap();
 }
 
-function applySearch() {
-  handleSearchInput();
-}
+function applySearch() { handleSearchInput(); }
 
 function clearSearch() {
   document.getElementById("searchInput").value = "";
@@ -2368,8 +2511,14 @@ function changeCategory(cat) {
 
 function getFilteredExploreSpots() {
   return spots.filter(s => {
-    const matchCat = category === "all" || s[2] === category;
-    const matchSearch = !searchQuery || s[1].toLowerCase().includes(searchQuery) || s[0].includes(searchQuery) || (s[5] && s[5].toLowerCase().includes(searchQuery));
+    const matchCat = category === "all" || s.cat === category;
+    const matchSearch = !searchQuery
+      || s.name.toLowerCase().includes(searchQuery)
+      || s.id.includes(searchQuery)
+      || s.addr.toLowerCase().includes(searchQuery)
+      || s.pdfGroup.toLowerCase().includes(searchQuery)
+      || s.sub.toLowerCase().includes(searchQuery)
+      || s.desc.toLowerCase().includes(searchQuery);
     return matchCat && matchSearch;
   });
 }
@@ -2387,10 +2536,10 @@ function renderExploreMap() {
   if (!searchQuery && category === "all") {
     for (let i = 0; i < spots.length - 1; i++) {
       const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      l.setAttribute("x1", spots[i][3] + "%");
-      l.setAttribute("y1", spots[i][4] + "%");
-      l.setAttribute("x2", spots[i + 1][3] + "%");
-      l.setAttribute("y2", spots[i + 1][4] + "%");
+      l.setAttribute("x1", spots[i].x + "%");
+      l.setAttribute("y1", spots[i].y + "%");
+      l.setAttribute("x2", spots[i + 1].x + "%");
+      l.setAttribute("y2", spots[i + 1].y + "%");
       l.setAttribute("class", "edge");
       svg.appendChild(l);
     }
@@ -2398,23 +2547,23 @@ function renderExploreMap() {
     for (let i = 0; i < visibleSpots.length - 1; i++) {
       const from = visibleSpots[i], to = visibleSpots[i + 1];
       const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      l.setAttribute("x1", from[3] + "%");
-      l.setAttribute("y1", from[4] + "%");
-      l.setAttribute("x2", to[3] + "%");
-      l.setAttribute("y2", to[4] + "%");
+      l.setAttribute("x1", from.x + "%");
+      l.setAttribute("y1", from.y + "%");
+      l.setAttribute("x2", to.x + "%");
+      l.setAttribute("y2", to.y + "%");
       l.setAttribute("class", "routeEdge dashed");
       l.style.stroke = category === "all" ? "#B75C42" : colors[category];
       svg.appendChild(l);
     }
   }
 
-  visibleSpots.forEach((s, idx) => {
+  visibleSpots.forEach(s => {
     const n = document.createElement("div");
-    n.className = "node" + (selected.has(s[0]) ? " added" : "");
-    n.style.left = s[3] + "%";
-    n.style.top = s[4] + "%";
-    n.style.background = colors[s[2]];
-    n.textContent = idx + 1;
+    n.className = "node" + (selected.has(s.id) ? " added" : "");
+    n.style.left = s.x + "%";
+    n.style.top = s.y + "%";
+    n.style.background = colors[s.cat];
+    n.textContent = s.id;
     n.onclick = e => {
       e.stopPropagation();
       openSpotModal(s);
@@ -2423,9 +2572,9 @@ function renderExploreMap() {
 
     const lbl = document.createElement("div");
     lbl.className = "nodeLabel" + (visibleSpots.length > 12 ? " compact" : "");
-    lbl.textContent = s[1];
-    lbl.style.left = s[3] + "%";
-    lbl.style.top = s[4] + "%";
+    lbl.textContent = s.name;
+    lbl.style.left = s.x + "%";
+    lbl.style.top = s.y + "%";
     lbl.onclick = e => {
       e.stopPropagation();
       openSpotModal(s);
@@ -2434,11 +2583,11 @@ function renderExploreMap() {
   });
 
   customSpotsList.forEach(cs => {
-    if (searchQuery && !cs[1].toLowerCase().includes(searchQuery)) return;
+    if (searchQuery && !cs.name.toLowerCase().includes(searchQuery)) return;
     const n = document.createElement("div");
     n.className = "node node-custom added";
-    n.style.left = cs[3] + "%";
-    n.style.top = cs[4] + "%";
+    n.style.left = cs.x + "%";
+    n.style.top = cs.y + "%";
     n.textContent = "★";
     n.onclick = e => {
       e.stopPropagation();
@@ -2448,9 +2597,9 @@ function renderExploreMap() {
 
     const lbl = document.createElement("div");
     lbl.className = "nodeLabel";
-    lbl.textContent = cs[1];
-    lbl.style.left = cs[3] + "%";
-    lbl.style.top = cs[4] + "%";
+    lbl.textContent = cs.name;
+    lbl.style.left = cs.x + "%";
+    lbl.style.top = cs.y + "%";
     lbl.onclick = e => {
       e.stopPropagation();
       openSpotModal(cs);
@@ -2492,9 +2641,9 @@ function updateFacilityInfoCard(customTitle, customDesc) {
     return;
   }
   const defaults = {
-    gate: { title: "古城出入口与停车场（7处）", desc: "含南门、东门、西门、北门、东北门、梧桐街出入口及南门生态停车场。点击地图标签可直接加入行程。" },
+    gate: { title: "古城出入口与停车场（7处）", desc: "东门、南门与停车场位置已按高德坐标与 PS 地图校准，点击地图标签可直接加入行程。" },
     pet: { title: "古城常驻萌宠（8只）", desc: "分布在小巷店门口的猫咪与狗狗邻居，点击地图上的萌宠图标可查看档案与互动贴士。" },
-    toilet: { title: "公共卫生间（4处）", desc: "分布在南门、骑楼街中段、古城广场与西集市。设施分布为参考示意，具体以现场标识为准。" },
+    toilet: { title: "公共卫生间（4处）", desc: "分布在南门、十字街、大家乐广场与西集。设施分布为参考示意，具体以现场标识为准。" },
     medical: { title: "应急医疗急救点（2处）", desc: "南门游客中心（配AED）与中区红十字便民医疗站，点击地图图标查看详细应急服务。" }
   };
   const info = defaults[lastFacilityFocus];
@@ -2517,7 +2666,13 @@ function renderFacilities() {
       node.innerHTML = (g.isParking ? "🅿️ " : "🚪 ") + g.name + (isAdded ? " ✓" : "");
       node.onclick = e => {
         e.stopPropagation();
-        openSpotModal([g.id, g.name, "gate", g.x, g.y, g.isParking ? "自驾停车" : "古城入口"]);
+        openSpotModal({
+          id: g.id, name: g.name, cat: "gate",
+          pdfGroup: g.isParking ? "PARKING / 古城停车场" : "GATE / 古城出入口",
+          sub: g.isParking ? "自驾停车" : "主要出入口",
+          addr: "南头古城周边出入口", hours: "全天开放", price: "",
+          desc: g.desc, tip: "", photoCount: 0, captions: [], x: g.x, y: g.y
+        });
       };
       layer.appendChild(node);
     });
@@ -2574,25 +2729,63 @@ function renderFacilities() {
   }
 }
 
-// ================= 8. 地点详情居中大弹窗 & 萌宠弹窗 =================
+// ================= 9. 居中大弹窗（含店铺档案 + photos/ 实拍图自动读取） =================
 function openSpotModal(s) {
   currentSpot = s;
-  const type = s[2];
-  document.getElementById("spotModalEyebrow").textContent = catLabels[type] || "CITY'S GOOD SHOPS / 景点";
-  document.getElementById("spotModalTitle").textContent = s[1];
-  document.getElementById("spotModalSubTag").textContent = s[5] || catNames[type] || "推荐点位";
-  document.getElementById("spotModalArt").innerHTML = renderArtHtml(type, s[1]);
+  const type = s.cat;
+  document.getElementById("spotModalEyebrow").textContent = s.pdfGroup || "SPOT / 古城地点";
+  document.getElementById("spotModalTitle").textContent = (s.id && /^\d{2}$/.test(s.id)) ? `${s.id} ${s.name}` : s.name;
+  document.getElementById("spotModalArt").innerHTML = renderArtHtml(type, s.name);
 
-  let desc = "";
-  if (type === "custom") desc = "点位介绍：您在漫游过程中自行标定添加的个性化偶遇地点，后续可继续补充文字与现场照片。";
-  else if (type === "gate") desc = "出入口介绍：" + (gateDescriptions[s[0]] || "南头古城主要交通出入口。");
-  else desc = "点位示意资料：" + (spotDescriptions[s[0]] || "");
-  document.getElementById("spotModalDesc").textContent = desc;
+  // 元信息标签栏（细分标签 + 地址 + 营业时间 + 人均）
+  const metaRow = document.getElementById("spotModalMetaRow");
+  metaRow.innerHTML = "";
+  if (s.sub) metaRow.innerHTML += `<span class="spot-modal-subbadge">${s.sub}</span>`;
+  if (s.addr) metaRow.innerHTML += `<span class="spot-meta-chip">📍 ${s.addr}</span>`;
+  if (s.hours) metaRow.innerHTML += `<span class="spot-meta-chip">🕒 ${s.hours}</span>`;
+  if (s.price) metaRow.innerHTML += `<span class="spot-meta-chip">💰 ${s.price}</span>`;
 
-  // 预留照片容器（后期若有实景图片数组可直接在此渲染）
-  document.getElementById("spotModalPhotos").innerHTML = "";
+  document.getElementById("spotModalDesc").textContent = s.desc || "";
 
-  const isSelected = type === "custom" ? customSpotsList.some(c => c[0] === s[0]) : selected.has(s[0]);
+  const tipBox = document.getElementById("spotModalPhotoTip");
+  if (s.tip) {
+    tipBox.style.display = "block";
+    tipBox.textContent = `📷 拍照建议：${s.tip}`;
+  } else {
+    tipBox.style.display = "none";
+  }
+
+  // 加载 photos/ 文件夹中的 1~4 张实拍照片（自动兼容 .jpg 与 .png，缺图自动隐藏）
+  const photosEl = document.getElementById("spotModalPhotos");
+  photosEl.innerHTML = "";
+  const count = s.photoCount || 0;
+  if (count > 0 && /^\d{2}$/.test(s.id)) {
+    for (let k = 1; k <= count; k++) {
+      const item = document.createElement("div");
+      item.className = "spot-photo-item";
+      const capText = (s.captions && s.captions[k - 1]) ? s.captions[k - 1] : `实拍图 ${k}`;
+      const img = document.createElement("img");
+      img.alt = `${s.name} ${capText}`;
+      img.src = `./photos/${s.id}-${k}.jpg`;
+      img.dataset.triedPng = "0";
+      img.onerror = function() {
+        if (this.dataset.triedPng === "0") {
+          this.dataset.triedPng = "1";
+          this.src = `./photos/${s.id}-${k}.png`;
+        } else {
+          item.remove();
+        }
+      };
+      const cap = document.createElement("div");
+      cap.className = "spot-photo-cap";
+      cap.textContent = capText;
+      item.appendChild(img);
+      item.appendChild(cap);
+      photosEl.appendChild(item);
+    }
+  }
+
+  const isSelected = type === "custom" ? customSpotsList.some(c => c.id === s.id) : selected.has(s.id);
   const btn = document.getElementById("spotActionBtn");
   btn.textContent = isSelected ? "从我的路线移除" : "加入我的路线";
   btn.className = isSelected ? "btn-secondary btn-danger-soft" : "btn-primary";
@@ -2601,17 +2794,17 @@ function openSpotModal(s) {
 
 function toggleSpotSelection() {
   if (!currentSpot) return;
-  const isCustom = currentSpot[2] === "custom";
+  const isCustom = currentSpot.cat === "custom";
   if (isCustom) {
-    customSpotsList = customSpotsList.filter(c => c[0] !== currentSpot[0]);
-    showToast(`已移除地点：${currentSpot[1]}`);
+    customSpotsList = customSpotsList.filter(c => c.id !== currentSpot.id);
+    showToast(`已移除地点：${currentSpot.name}`);
   } else {
-    if (selected.has(currentSpot[0])) {
-      selected.delete(currentSpot[0]);
-      showToast(`已移除地点：${currentSpot[1]}`);
+    if (selected.has(currentSpot.id)) {
+      selected.delete(currentSpot.id);
+      showToast(`已移除地点：${currentSpot.name}`);
     } else {
-      selected.add(currentSpot[0]);
-      showToast(`已加入路线：${currentSpot[1]}`);
+      selected.add(currentSpot.id);
+      showToast(`已加入路线：${currentSpot.name}`);
     }
   }
   closeModal("spot-modal");
@@ -2628,12 +2821,18 @@ function openPetModal(pet) {
   openModal("pet-modal");
 }
 
-// ================= 9. TAB 3：我的旅程 =================
+// ================= 10. TAB 3：我的旅程 =================
 function getAllJourneySpots() {
-  const standard = spots.filter(s => selected.has(s[0]));
+  const standard = spots.filter(s => selected.has(s.id));
   const addedGates = gatesAndParking
     .filter(g => selected.has(g.id))
-    .map(g => [g.id, g.name, "gate", g.x, g.y, g.isParking ? "自驾停车" : "古城入口"]);
+    .map(g => ({
+      id: g.id, name: g.name, cat: "gate",
+      pdfGroup: g.isParking ? "PARKING / 古城停车场" : "GATE / 古城出入口",
+      sub: g.isParking ? "自驾停车" : "主要出入口",
+      addr: "南头古城周边出入口", hours: "全天开放", price: "",
+      desc: g.desc, tip: "", photoCount: 0, captions: [], x: g.x, y: g.y
+    }));
   return [...standard, ...addedGates, ...customSpotsList];
 }
 
@@ -2641,11 +2840,11 @@ function getFullOrderedRoute() {
   const waypointSpots = getAllJourneySpots();
   const fullRoute = [];
   if (startEndpoint) {
-    fullRoute.push(["start_node", startEndpoint.name, "start", startEndpoint.x, startEndpoint.y]);
+    fullRoute.push({ id: "start_node", name: startEndpoint.name, cat: "start", x: startEndpoint.x, y: startEndpoint.y });
   }
   fullRoute.push(...waypointSpots);
   if (endEndpoint) {
-    fullRoute.push(["end_node", endEndpoint.name, "end", endEndpoint.x, endEndpoint.y]);
+    fullRoute.push({ id: "end_node", name: endEndpoint.name, cat: "end", x: endEndpoint.x, y: endEndpoint.y });
   }
   return fullRoute;
 }
@@ -2655,7 +2854,7 @@ function renderJourney() {
   const waypoints = getAllJourneySpots();
   const count = fullRoute.length;
   const hours = (count * 0.4).toFixed(1);
-  const km = (count * 0.32).toFixed(1);
+  const km = (count * 0.25).toFixed(2);
   document.getElementById("journeyStatsLine").textContent = `${count} 个地点 · 参考 ${hours} 小时 · 示意 ${km} km`;
 
   const startDisp = document.getElementById("startEndpointDisplay");
@@ -2707,44 +2906,44 @@ function renderJourney() {
   for (let i = 0; i < lineCount; i++) {
     const from = fullRoute[i], to = fullRoute[(i + 1) % fullRoute.length];
     const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    l.setAttribute("x1", from[3] + "%");
-    l.setAttribute("y1", from[4] + "%");
-    l.setAttribute("x2", to[3] + "%");
-    l.setAttribute("y2", to[4] + "%");
+    l.setAttribute("x1", from.x + "%");
+    l.setAttribute("y1", from.y + "%");
+    l.setAttribute("x2", to.x + "%");
+    l.setAttribute("y2", to.y + "%");
     l.setAttribute("class", "routeEdge dashed");
     l.style.stroke = "#B75C42";
     svg.appendChild(l);
   }
 
   fullRoute.forEach((s, idx) => {
-    const isStart = s[2] === "start";
-    const isEnd = s[2] === "end";
-    const isCustom = s[2] === "custom";
-    const isGate = s[2] === "gate";
+    const isStart = s.cat === "start";
+    const isEnd = s.cat === "end";
+    const isCustom = s.cat === "custom";
+    const isGate = s.cat === "gate";
 
     const n = document.createElement("div");
     n.className = "node" + (isStart ? " node-start" : isEnd ? " node-end" : isCustom ? " node-custom" : isGate ? " node-gate" : "");
-    if (!isStart && !isEnd && !isCustom && !isGate) n.style.background = colors[s[2]];
+    if (!isStart && !isEnd && !isCustom && !isGate) n.style.background = colors[s.cat];
     n.textContent = isStart ? "起" : isEnd ? "终" : (idx + 1);
-    n.style.left = s[3] + "%";
-    n.style.top = s[4] + "%";
+    n.style.left = s.x + "%";
+    n.style.top = s.y + "%";
     n.onclick = e => {
       e.stopPropagation();
-      if (isStart) showToast(`起点：${s[1]}`);
-      else if (isEnd) showToast(`终点：${s[1]}`);
+      if (isStart) showToast(`起点：${s.name}`);
+      else if (isEnd) showToast(`终点：${s.name}`);
       else openSpotModal(s);
     };
     layer.appendChild(n);
 
     const lbl = document.createElement("div");
     lbl.className = "nodeLabel";
-    lbl.textContent = s[1];
-    lbl.style.left = s[3] + "%";
-    lbl.style.top = s[4] + "%";
+    lbl.textContent = s.name;
+    lbl.style.left = s.x + "%";
+    lbl.style.top = s.y + "%";
     lbl.onclick = e => {
       e.stopPropagation();
-      if (isStart) showToast(`起点：${s[1]}`);
-      else if (isEnd) showToast(`终点：${s[1]}`);
+      if (isStart) showToast(`起点：${s.name}`);
+      else if (isEnd) showToast(`终点：${s.name}`);
       else openSpotModal(s);
     };
     layer.appendChild(lbl);
@@ -2758,15 +2957,15 @@ function renderJourney() {
     row.innerHTML = `
       <div class="stop-item-left">
         <span class="stop-idx">${String(idx + 1).padStart(2, "0")}</span>
-        <span class="stop-title">${s[1]}</span>
+        <span class="stop-title">${s.name}</span>
       </div>
       <button class="stop-remove-btn" type="button">移除</button>
     `;
     row.querySelector(".stop-remove-btn").onclick = e => {
       e.stopPropagation();
-      if (s[2] === "custom") customSpotsList = customSpotsList.filter(c => c[0] !== s[0]);
-      else selected.delete(s[0]);
-      showToast(`已移除地点：${s[1]}`);
+      if (s.cat === "custom") customSpotsList = customSpotsList.filter(c => c.id !== s.id);
+      else selected.delete(s.id);
+      showToast(`已移除地点：${s.name}`);
       updateAll();
     };
     stopListEl.appendChild(row);
@@ -2781,7 +2980,7 @@ function updateAll() {
   renderJourney();
 }
 
-// ================= 10. 起终点选择逻辑 =================
+// ================= 11. 起终点选择与实时 GPS 经纬度换算 =================
 function openEndpointModal(target) {
   currentEndpointTarget = target;
   document.getElementById("endpointGpsError").style.display = "none";
@@ -2799,8 +2998,8 @@ function clearEndpoint(target, e) {
 
 function setEndpointByCurrentLocation() {
   showToast("正在获取定位...");
-  fetchUserGPS((coords, success) => {
-    if (!success) {
+  fetchUserGPS((coords, status) => {
+    if (!status.ok) {
       document.getElementById("endpointGpsError").style.display = "block";
       showToast("定位未成功，请手动在地图选择");
       return;
@@ -2816,7 +3015,7 @@ function setEndpointByCurrentLocation() {
     else endEndpoint = point;
     closeModals();
     updateAll();
-    showToast(`已设置当前位置为${isStart ? "出发点" : "终点"}`);
+    showToast(status.inPark ? `已定位到古城内位置（PS: ${coords.px}, ${coords.py}）` : "您当前不在南头古城范围内，已使用城内参考坐标");
   });
 }
 
@@ -2865,46 +3064,46 @@ function openSpotPickerModal() {
   const layer = document.getElementById("spot-picker-layer");
   layer.innerHTML = "";
 
-  spots.forEach((s, idx) => {
+  spots.forEach(s => {
     const n = document.createElement("div");
     n.className = "node";
-    n.style.left = s[3] + "%";
-    n.style.top = s[4] + "%";
-    n.style.background = colors[s[2]];
-    n.textContent = idx + 1;
+    n.style.left = s.x + "%";
+    n.style.top = s.y + "%";
+    n.style.background = colors[s.cat];
+    n.textContent = s.id;
     n.onclick = e => {
       e.stopPropagation();
-      const point = { id: s[0], name: s[1], x: s[3], y: s[4] };
+      const point = { id: s.id, name: s.name, x: s.x, y: s.y };
       if (isStart) startEndpoint = point;
       else endEndpoint = point;
       closeModals();
       updateAll();
-      showToast(`已将「${s[1]}」设为${isStart ? "出发点" : "终点"}`);
+      showToast(`已将「${s.name}」设为${isStart ? "出发点" : "终点"}`);
     };
     layer.appendChild(n);
 
     const lbl = document.createElement("div");
     lbl.className = "nodeLabel compact";
-    lbl.textContent = s[1];
-    lbl.style.left = s[3] + "%";
-    lbl.style.top = s[4] + "%";
+    lbl.textContent = s.name;
+    lbl.style.left = s.x + "%";
+    lbl.style.top = s.y + "%";
     layer.appendChild(lbl);
   });
 
   customSpotsList.forEach(cs => {
     const n = document.createElement("div");
     n.className = "node node-custom";
-    n.style.left = cs[3] + "%";
-    n.style.top = cs[4] + "%";
+    n.style.left = cs.x + "%";
+    n.style.top = cs.y + "%";
     n.textContent = "★";
     n.onclick = e => {
       e.stopPropagation();
-      const point = { id: cs[0], name: cs[1], x: cs[3], y: cs[4] };
+      const point = { id: cs.id, name: cs.name, x: cs.x, y: cs.y };
       if (isStart) startEndpoint = point;
       else endEndpoint = point;
       closeModals();
       updateAll();
-      showToast(`已将「${cs[1]}」设为${isStart ? "出发点" : "终点"}`);
+      showToast(`已将「${cs.name}」设为${isStart ? "出发点" : "终点"}`);
     };
     layer.appendChild(n);
   });
@@ -2915,28 +3114,34 @@ function openSpotPickerModal() {
 
 function fetchUserGPS(callback) {
   if (!navigator.geolocation) {
-    callback(cachedUserCoords, false);
+    callback(cachedUserCoords, { ok: false, inPark: false });
     return;
   }
   navigator.geolocation.getCurrentPosition(
     pos => {
-      const lat = pos.coords.latitude, lng = pos.coords.longitude;
-      const MIN_LNG = 113.9105, MAX_LNG = 113.9172, MIN_LAT = 22.5310, MAX_LAT = 22.5390;
-      if (lng >= MIN_LNG && lng <= MAX_LNG && lat >= MIN_LAT && lat <= MAX_LAT) {
-        const mapX = Math.round(((lng - MIN_LNG) / (MAX_LNG - MIN_LNG)) * 80 + 10);
-        const mapY = Math.round(100 - (((lat - MIN_LAT) / (MAX_LAT - MIN_LAT)) * 80 + 10));
-        cachedUserCoords = { x: mapX, y: mapY };
-        callback(cachedUserCoords, true);
-      } else {
-        callback(cachedUserCoords, true);
+      // 1. 手机定位 WGS-84 纠偏为高德 GCJ-02
+      const gcj = wgs84ToGcj02(pos.coords.longitude, pos.coords.latitude);
+      // 2. 使用校准后的 2D 仿射矩阵直接换算为 PS 地图坐标 (1541x1423) 与百分比
+      const mapped = gcj02ToMapPercent(gcj.lng, gcj.lat);
+      const inPark = mapped.px >= -80 && mapped.px <= MAP_W + 80 && mapped.py >= -80 && mapped.py <= MAP_H + 80;
+      if (inPark) {
+        const clampedX = Math.max(2, Math.min(98, mapped.x));
+        const clampedY = Math.max(2, Math.min(98, mapped.y));
+        cachedUserCoords = {
+          px: Math.round((clampedX / 100) * MAP_W),
+          py: Math.round((clampedY / 100) * MAP_H),
+          x: clampedX,
+          y: clampedY
+        };
       }
+      callback(cachedUserCoords, { ok: true, inPark });
     },
-    () => callback(cachedUserCoords, false),
-    { timeout: 4000 }
+    () => callback(cachedUserCoords, { ok: false, inPark: false }),
+    { enableHighAccuracy: true, timeout: 5000 }
   );
 }
 
-// ================= 11. 途中加点 =================
+// ================= 12. 途中加点 =================
 function openCustomSpotModal() {
   resetCustomModal();
   openModal("custom-modal");
@@ -2961,9 +3166,9 @@ function openPinningMapStep() {
   getAllJourneySpots().forEach((s, idx) => {
     const dot = document.createElement("div");
     dot.className = "node";
-    dot.style.left = s[3] + "%";
-    dot.style.top = s[4] + "%";
-    dot.style.background = colors[s[2]] || "#52694E";
+    dot.style.left = s.x + "%";
+    dot.style.top = s.y + "%";
+    dot.style.background = colors[s.cat] || "#52694E";
     dot.style.opacity = "0.75";
     dot.textContent = idx + 1;
     refLayer.appendChild(dot);
@@ -3020,16 +3225,18 @@ function confirmPinPosition() {
 
 function startLocationDetection() {
   showToast("正在获取当前定位...");
-  fetchUserGPS((coords, success) => {
-    if (!success) {
+  fetchUserGPS((coords, status) => {
+    if (!status.ok) {
       document.getElementById("customGpsError").style.display = "block";
       showToast("定位未成功，请改用手动标点");
       return;
     }
-    pinCoord = coords;
+    pinCoord = { x: coords.x, y: coords.y };
     document.getElementById("customStep1").style.display = "none";
     document.getElementById("customStep3").style.display = "block";
-    document.getElementById("coordInfo").textContent = `定位已采集（X:${coords.x}%, Y:${coords.y}%）。加入后更新参考顺序，可在「我的旅程」中再次查看或移除。`;
+    document.getElementById("coordInfo").textContent = status.inPark
+      ? `古城内精确定位已采集（X:${coords.x}%, Y:${coords.y}%）。`
+      : `当前不在古城园区内，已记录城内参考坐标（X:${coords.x}%, Y:${coords.y}%）。`;
   });
 }
 
@@ -3041,14 +3248,20 @@ function updateNameCounter() {
 function confirmAddCustomSpot() {
   const nameInput = document.getElementById("customSpotName").value.trim();
   const name = nameInput || `街角小惊喜 #${customSpotsList.length + 1}`;
-  customSpotsList.push(["c_" + Date.now(), name, "custom", pinCoord.x, pinCoord.y, "我的发现"]);
+  customSpotsList.push({
+    id: "c_" + Date.now(), name, cat: "custom",
+    pdfGroup: "MY DISCOVERY / 我的发现", sub: "自定义打卡",
+    addr: "古城小巷偶遇", hours: "", price: "",
+    desc: "您在漫游过程中自行标定添加的个性化偶遇地点。", tip: "",
+    photoCount: 0, captions: [], x: pinCoord.x, y: pinCoord.y
+  });
   closeModals();
   updateAll();
   showToast(`已加入路线：「${name}」`);
   switchTab("journey");
 }
 
-// ================= 12. 生成纪念地图海报 =================
+// ================= 13. 生成纪念地图海报 =================
 function drawPosterVector(ctx, fullRoute, tryBgImg) {
   const W = 720, H = 960;
   ctx.fillStyle = "#F7F5EE";
@@ -3068,7 +3281,10 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
   ctx.font = '14px "Noto Sans SC", sans-serif';
   ctx.fillText("MY LITTLE NANTOU MEMORY", 72, 134);
 
-  const mapX = 72, mapY = 166, mapW = W - 144, mapH = 480;
+  const mapW = 540;
+  const mapH = Math.round(mapW * MAP_H / MAP_W); // 精确保持 1541:1423 比例
+  const mapX = (W - mapW) / 2;
+  const mapY = 160;
   ctx.fillStyle = "#EAE7D8";
   roundRect(ctx, mapX, mapY, mapW, mapH, 16, true, false);
 
@@ -3086,13 +3302,13 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
   }
   if (!drewBg) {
     ctx.save();
-    ctx.translate(mapX + 55, mapY + 10);
-    ctx.scale(mapW / 460, mapH / 430);
+    ctx.translate(mapX, mapY);
+    ctx.scale(mapW / MAP_W, mapH / MAP_H);
     ctx.beginPath();
-    ctx.moveTo(168, 38); ctx.lineTo(272, 52); ctx.lineTo(310, 112); ctx.lineTo(292, 178);
-    ctx.lineTo(256, 196); ctx.lineTo(262, 246); ctx.lineTo(236, 276); ctx.lineTo(208, 286);
-    ctx.lineTo(186, 346); ctx.lineTo(142, 362); ctx.lineTo(112, 332); ctx.lineTo(134, 252);
-    ctx.lineTo(116, 214); ctx.lineTo(120, 124); ctx.lineTo(158, 112); ctx.closePath();
+    ctx.moveTo(560, 120); ctx.lineTo(1020, 140); ctx.lineTo(1220, 260); ctx.lineTo(1180, 480);
+    ctx.lineTo(1460, 560); ctx.lineTo(1450, 740); ctx.lineTo(1120, 790); ctx.lineTo(1180, 960);
+    ctx.lineTo(980, 1080); ctx.lineTo(1040, 1300); ctx.lineTo(720, 1320); ctx.lineTo(740, 1040);
+    ctx.lineTo(480, 940); ctx.lineTo(400, 660); ctx.lineTo(340, 520); ctx.lineTo(480, 280); ctx.closePath();
     ctx.fillStyle = "#C4BD93";
     ctx.fill();
     ctx.restore();
@@ -3100,73 +3316,73 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
 
   ctx.fillStyle = "#6B7562";
   ctx.font = '300 28px "Noto Serif SC", "Songti SC", Georgia, serif';
-  ctx.fillText("南头古城", mapX + 26, mapY + 52);
+  ctx.fillText("南头古城", mapX + 24, mapY + 48);
   ctx.fillStyle = "#8A9282";
   ctx.font = '11px "Noto Sans SC", sans-serif';
-  ctx.fillText("NANTOU ANCIENT CITY", mapX + 26, mapY + 70);
+  ctx.fillText("NANTOU ANCIENT CITY", mapX + 24, mapY + 66);
 
   ctx.save();
   ctx.beginPath();
   fullRoute.forEach((pt, i) => {
-    const px = mapX + (pt[3] / 100) * mapW;
-    const py = mapY + (pt[4] / 100) * mapH;
+    const px = mapX + (pt.x / 100) * mapW;
+    const py = mapY + (pt.y / 100) * mapH;
     if (i === 0) ctx.moveTo(px, py);
     else ctx.lineTo(px, py);
   });
   ctx.strokeStyle = "#B75C42";
-  ctx.lineWidth = 4.5;
+  ctx.lineWidth = 4;
   ctx.setLineDash([10, 7]);
   ctx.stroke();
   ctx.restore();
 
   fullRoute.forEach((s, idx) => {
-    const px = mapX + (s[3] / 100) * mapW;
-    const py = mapY + (s[4] / 100) * mapH;
+    const px = mapX + (s.x / 100) * mapW;
+    const py = mapY + (s.y / 100) * mapH;
     ctx.beginPath();
-    ctx.arc(px, py, 14, 0, Math.PI * 2);
-    ctx.fillStyle = s[2] === "start" ? "#52694E" : s[2] === "end" ? "#B75C42" : (colors[s[2]] || "#52694E");
+    ctx.arc(px, py, 13, 0, Math.PI * 2);
+    ctx.fillStyle = s.cat === "start" ? "#52694E" : s.cat === "end" ? "#B75C42" : (colors[s.cat] || "#52694E");
     ctx.fill();
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = 'bold 13px "Noto Sans SC", sans-serif';
+    ctx.font = 'bold 12px "Noto Sans SC", sans-serif';
     ctx.textAlign = "center";
-    ctx.fillText(s[2] === "start" ? "起" : s[2] === "end" ? "终" : String(idx + 1), px, py + 4.5);
+    ctx.fillText(s.cat === "start" ? "起" : s.cat === "end" ? "终" : String(idx + 1), px, py + 4);
 
-    ctx.font = '12px "Noto Sans SC", sans-serif';
-    const tw = Math.min(130, ctx.measureText(s[1]).width + 18);
+    ctx.font = '11px "Noto Sans SC", sans-serif';
+    const tw = Math.min(130, ctx.measureText(s.name).width + 16);
     ctx.fillStyle = "rgba(255,255,255,0.95)";
-    roundRect(ctx, px - tw / 2, py + 18, tw, 24, 6, true, false);
+    roundRect(ctx, px - tw / 2, py + 17, tw, 22, 6, true, false);
     ctx.fillStyle = "#303E35";
-    ctx.fillText(s[1].slice(0, 9), px, py + 34);
+    ctx.fillText(s.name.slice(0, 9), px, py + 32);
   });
 
   ctx.textAlign = "left";
   ctx.fillStyle = "#303E35";
   ctx.font = 'bold 22px "Noto Sans SC", sans-serif';
-  ctx.fillText(`今天，我在小巷里收集了 ${fullRoute.length} 次心动。`, 72, 706);
+  ctx.fillText(`今天，我在小巷里收集了 ${fullRoute.length} 次心动。`, 72, 720);
 
   ctx.fillStyle = "#7C8479";
-  ctx.font = '16px "Noto Sans SC", sans-serif';
-  const chain = fullRoute.map(s => s[1]).join(" / ");
-  ctx.fillText(chain.length > 34 ? chain.slice(0, 32) + "..." : chain, 72, 750);
+  ctx.font = '15px "Noto Sans SC", sans-serif';
+  const chain = fullRoute.map(s => s.name).join(" / ");
+  ctx.fillText(chain.length > 34 ? chain.slice(0, 32) + "..." : chain, 72, 760);
 
   const now = new Date();
   const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
   ctx.fillStyle = "#9BA296";
   ctx.font = '14px "Noto Sans SC", sans-serif';
-  ctx.fillText(`计划路线纪念 · ${dateStr} · 南头漫游`, 72, 810);
+  ctx.fillText(`计划路线纪念 · ${dateStr} · 南头漫游`, 72, 815);
 
   ctx.strokeStyle = "#B75C42";
   ctx.lineWidth = 2.5;
-  roundRect(ctx, W - 150, 760, 74, 74, 8, false, true);
+  roundRect(ctx, W - 150, 765, 74, 74, 8, false, true);
   ctx.fillStyle = "#B75C42";
   ctx.font = 'bold 18px "Noto Serif SC", serif';
   ctx.textAlign = "center";
-  ctx.fillText("南头", W - 113, 792);
-  ctx.fillText("漫游", W - 113, 818);
+  ctx.fillText("南头", W - 113, 797);
+  ctx.fillText("漫游", W - 113, 823);
 }
 
 function roundRect(ctx, x, y, w, h, r, fill, stroke) {
@@ -3205,22 +3421,11 @@ function generateSouvenirPoster() {
   showToast("纪念地图已生成");
 }
 
-// ================= 13. 弹窗与通用工具 =================
-function openModal(id) {
-  document.getElementById(id).classList.add("open");
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove("open");
-}
-
-function closeModals() {
-  document.querySelectorAll(".modal").forEach(m => m.classList.remove("open"));
-}
-
-function backdropCloseSingle(e, id) {
-  if (e.target.id === id) closeModal(id);
-}
+// ================= 14. 弹窗与通用工具 =================
+function openModal(id) { document.getElementById(id).classList.add("open"); }
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+function closeModals() { document.querySelectorAll(".modal").forEach(m => m.classList.remove("open")); }
+function backdropCloseSingle(e, id) { if (e.target.id === id) closeModal(id); }
 
 function showToast(msg) {
   const t = document.getElementById("toast");
@@ -3230,7 +3435,7 @@ function showToast(msg) {
   window.__toastTimer = setTimeout(() => t.classList.remove("show"), 2300);
 }
 
-// ================= 14. 启动初始化 =================
+// ================= 15. 启动初始化 =================
 window.addEventListener("DOMContentLoaded", () => {
   zoomControllers.explore = new InteractiveMapViewport("explore-map-viewport", "explore-zoom-stage");
   zoomControllers.journey = new InteractiveMapViewport("journey-map-viewport", "journey-zoom-stage");
