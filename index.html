@@ -4,12 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>南头漫游 NANTOU WANDER · 路线定制与探索导览</title>
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #F7F5EE;
     --surface: #FFFFFF;
     --surface-soft: #EDF0E5;
-    --surface-warm: #F4F1E8;
+    --surface-card: #EFF2E7;
     --primary: #52694E;
     --primary-hover: #435740;
     --accent: #B75C42;
@@ -21,8 +25,8 @@
     --pin-food: #C89242;
     --pin-shop: #5B87A8;
     --pin-custom: #B75C42;
-    --font-serif: "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif CN", Georgia, serif;
-    --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --font-serif: "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", "Songti SC", "STSong", Georgia, serif;
+    --font-sans: "Noto Sans SC", "Source Han Sans SC", "Source Han Sans CN", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -34,7 +38,9 @@
     font-family: var(--font-sans);
     line-height: 1.5;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
+  button, input { font-family: var(--font-sans); }
 
   /* 顶部导航栏 */
   header.site-header {
@@ -57,21 +63,21 @@
   .brand h1 {
     margin: 0;
     font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     color: var(--ink);
     line-height: 1.15;
   }
   .brand span {
     font-size: 10px;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     color: var(--muted);
     margin-top: 2px;
   }
   .header-page-label {
     font-size: 13px;
     color: var(--muted);
-    font-weight: 500;
+    font-weight: 400;
   }
   .desktop-nav {
     display: none;
@@ -82,7 +88,7 @@
     background: transparent;
     color: var(--muted);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -102,7 +108,7 @@
   .tab-panel.active { display: block; animation: fadeIn 0.22s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* 排版样式 */
+  /* 排版样式（对齐设计稿宋体标题 + 思源黑体正文） */
   .hero-section {
     display: flex;
     align-items: center;
@@ -114,8 +120,8 @@
   .editorial-title {
     font-family: var(--font-serif);
     font-size: 28px;
-    font-weight: 400;
-    line-height: 1.32;
+    font-weight: 300;
+    line-height: 1.35;
     color: var(--ink);
     margin: 0 0 8px;
     letter-spacing: 0.5px;
@@ -124,6 +130,7 @@
     font-size: 13px;
     color: var(--muted);
     margin: 0;
+    font-weight: 400;
   }
   .hero-art {
     width: 112px;
@@ -136,18 +143,18 @@
 
   .section-eyebrow {
     font-size: 11px;
-    letter-spacing: 1px;
+    letter-spacing: 0.6px;
     color: var(--muted);
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 6px;
     display: block;
-    text-transform: uppercase;
   }
   .module-heading {
     font-size: 22px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--ink);
     margin: 0 0 16px;
+    letter-spacing: 0.2px;
   }
 
   /* 卡片与按钮规范 */
@@ -164,11 +171,11 @@
     width: 100%;
     min-height: 48px;
     border: 0;
-    border-radius: 14px;
+    border-radius: 12px;
     background: var(--primary);
     color: #fff;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -185,11 +192,11 @@
     width: 100%;
     min-height: 46px;
     border: 1px solid #DFE4D6;
-    border-radius: 14px;
+    border-radius: 12px;
     background: var(--surface-soft);
     color: var(--primary);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -206,7 +213,7 @@
     border-color: #EED5CC;
   }
 
-  /* 定制路线页面（图1） */
+  /* 定制路线页面 */
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -219,7 +226,7 @@
     background: var(--surface-soft);
     color: #5C6659;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     padding: 10px 12px;
     display: flex;
@@ -251,14 +258,14 @@
     background: var(--surface-soft);
     color: #677063;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.18s;
   }
   .sub-chip.active {
     background: var(--primary);
     color: #fff;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .manual-explore-tip {
@@ -303,7 +310,7 @@
   }
   .route-card-tag {
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--accent);
     background: #F9EDE9;
     padding: 3px 9px;
@@ -311,7 +318,7 @@
   }
   .route-card-title {
     font-size: 16px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--ink);
     margin-bottom: 4px;
   }
@@ -329,7 +336,7 @@
     color: var(--ink);
   }
 
-  /* 搜索与筛选栏（图2） */
+  /* 搜索与筛选栏 */
   .search-box {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -366,7 +373,7 @@
     background: transparent;
     color: var(--ink);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 8px 10px;
     cursor: pointer;
     border-radius: 10px;
@@ -391,7 +398,7 @@
     background: var(--surface-soft);
     color: #5C6659;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
     padding: 6px 10px;
@@ -426,6 +433,7 @@
     z-index: 3;
     pointer-events: none;
     font-family: var(--font-serif);
+    font-weight: 400;
     font-size: 22px;
     color: #6B7562;
     line-height: 1.1;
@@ -530,7 +538,7 @@
     backdrop-filter: blur(4px);
     color: var(--ink);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -597,7 +605,7 @@
     line-height: 1.3;
     white-space: nowrap;
     color: var(--ink);
-    font-weight: 600;
+    font-weight: 500;
     pointer-events: auto;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
@@ -613,7 +621,7 @@
     background: var(--ink);
     color: #fff;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 500;
     transform: translate(-50%, -50%);
     cursor: pointer;
     pointer-events: auto;
@@ -680,7 +688,7 @@
     background: #303E35;
     color: #fff;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 2px 7px;
     border-radius: 6px;
     white-space: nowrap;
@@ -705,7 +713,7 @@
     background: var(--surface);
     color: var(--ink);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     padding: 8px 4px;
     transition: all 0.18s;
@@ -727,7 +735,7 @@
   .facility-info-card.show { display: block; animation: fadeIn 0.2s ease; }
   .facility-info-title {
     font-size: 18px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--ink);
     margin: 4px 0 6px;
   }
@@ -742,7 +750,7 @@
     padding: 0;
     color: var(--primary);
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
   }
 
@@ -756,14 +764,15 @@
   .explore-count-text {
     font-size: 13px;
     color: var(--muted);
-    font-weight: 500;
+    font-weight: 400;
   }
   .explore-count-text strong {
     color: var(--ink);
     font-size: 15px;
+    font-weight: 700;
   }
 
-  /* 我的旅程页面（图3 & 图12） */
+  /* 我的旅程页面 */
   .journey-header-stats {
     font-size: 13px;
     color: var(--muted);
@@ -804,15 +813,15 @@
   }
   .endpoint-name {
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--ink);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .endpoint-name.unset { color: var(--muted); font-weight: 500; font-size: 14px; }
+  .endpoint-name.unset { color: var(--muted); font-weight: 400; font-size: 14px; }
   .endpoint-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .endpoint-edit-link { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .endpoint-edit-link { font-size: 12px; color: var(--muted); font-weight: 500; }
   .endpoint-clear-btn {
     border: 0;
     background: var(--surface-soft);
@@ -856,7 +865,7 @@
   .stop-title {
     font-size: 15px;
     color: var(--ink);
-    font-weight: 500;
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -913,7 +922,7 @@
     background: transparent;
     color: #9CA398;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -928,42 +937,129 @@
     background: #DCE0D4;
     transition: all 0.2s;
   }
-  .bottom-tab.active { color: var(--primary); }
+  .bottom-tab.active { color: var(--primary); font-weight: 600; }
   .bottom-tab.active .tab-dot { background: var(--primary); transform: scale(1.2); }
 
-  /* 弹窗（手机端底部展开，桌面端居中） */
+  /* ================= 弹窗样式：全端屏幕居中大弹窗（与截图一模一样） ================= */
   .modal {
     position: fixed;
     inset: 0;
-    background: rgba(48, 62, 53, 0.45);
-    backdrop-filter: blur(4px);
+    background: rgba(224, 228, 217, 0.82);
+    backdrop-filter: blur(5px);
     display: none;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     z-index: 100;
-    padding: 0;
+    padding: 18px 14px;
+  }
+  #spot-modal {
+    z-index: 130;
   }
   .modal.open { display: flex; }
+
   .panel {
     width: 100%;
-    max-width: 560px;
-    background: var(--surface);
-    border-radius: 24px 24px 0 0;
-    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.16);
+    max-width: 500px;
+    background: #FCFBF8;
+    border: 1px solid rgba(227, 225, 214, 0.9);
+    border-radius: 22px;
+    padding: 26px 22px 24px;
+    box-shadow: 0 18px 48px rgba(48, 62, 53, 0.14);
     position: relative;
-    max-height: 90vh;
+    max-height: 88vh;
     overflow-y: auto;
-    animation: slideUp 0.22s ease;
+    animation: modalPop 0.22s ease;
   }
-  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes modalPop {
+    from { transform: scale(0.96) translateY(10px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  /* 景点大弹窗专用板式（严格复刻附图） */
+  .spot-panel {
+    min-height: 76vh;
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    padding: 28px 24px 24px;
+  }
+  .spot-modal-header {
+    padding-right: 38px;
+  }
+  .spot-modal-eyebrow {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 400;
+  }
+  .spot-modal-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.28;
+    letter-spacing: 0.3px;
+  }
+  .spot-modal-center-art {
+    width: 220px;
+    height: 162px;
+    margin: 22px auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .spot-modal-content-box {
+    flex: 1;
+    min-height: 210px;
+    background: var(--surface-card);
+    border-radius: 16px;
+    padding: 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .spot-modal-subbadge {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 8px;
+  }
+  .spot-modal-desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #465047;
+    font-weight: 400;
+  }
+  .spot-modal-photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .spot-modal-photos:empty { display: none; }
+  .spot-modal-photos img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .spot-modal-footer {
+    margin-top: 20px;
+  }
 
   .modal-close {
     position: absolute;
-    right: 16px;
-    top: 16px;
-    width: 36px;
-    height: 36px;
+    right: 18px;
+    top: 18px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 0;
     background: transparent;
@@ -976,42 +1072,11 @@
   }
   .modal-close:hover { background: var(--surface-soft); color: var(--ink); }
 
-  .detail-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 12px;
-  }
   .detail-title {
-    font-size: 24px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 700;
     color: var(--ink);
-    margin: 4px 0 10px;
-  }
-  .detail-art {
-    width: 104px;
-    height: 90px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .tag-pill {
-    display: inline-block;
-    background: var(--primary);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-  }
-  .detail-desc {
-    font-size: 14px;
-    color: var(--ink);
-    line-height: 1.65;
-    margin: 0 0 18px;
+    margin: 4px 0 12px;
   }
 
   .option-card {
@@ -1024,7 +1089,7 @@
     margin-bottom: 10px;
   }
   .option-card:hover { border-color: var(--primary); background: #F5F7F0; }
-  .option-card-title { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
+  .option-card-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
   .option-card-desc { font-size: 12px; color: var(--muted); }
 
   /* 标点图钉 */
@@ -1060,7 +1125,7 @@
     border: 1px solid var(--border);
     color: var(--ink);
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 2px 8px;
     border-radius: 6px;
     white-space: nowrap;
@@ -1101,11 +1166,11 @@
   .gps-error-card h4 { margin: 0 0 4px; font-size: 14px; color: var(--ink); }
   .gps-error-card p { margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 
-  /* 萌宠与美食插画居中卡片 */
+  /* 萌宠插画居中卡片 */
   .center-art-box {
-    width: 148px;
-    height: 118px;
-    margin: 8px auto 14px;
+    width: 168px;
+    height: 132px;
+    margin: 10px auto 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1113,14 +1178,14 @@
   .pet-info-box {
     background: var(--surface-soft);
     border-radius: 14px;
-    padding: 14px 16px;
+    padding: 15px 16px;
     font-size: 13px;
     color: var(--ink);
-    line-height: 1.65;
-    margin-bottom: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
   }
 
-  /* 纪念海报弹窗（图8） */
+  /* 纪念海报弹窗 */
   .poster-preview-img {
     width: 100%;
     border-radius: 16px;
@@ -1141,7 +1206,7 @@
     padding: 10px 18px;
     border-radius: 24px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     z-index: 200;
     opacity: 0;
     pointer-events: none;
@@ -1156,7 +1221,7 @@
   .art-img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
   .art-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 
-  /* 桌面端适配规则（图14：1440px 左右结构，地图优先，弹窗居中） */
+  /* 桌面端适配规则：1440px 左右结构，地图优先 */
   @media (min-width: 900px) {
     .header-page-label { display: none; }
     .desktop-nav { display: flex; }
@@ -1230,14 +1295,8 @@
     .map-viewport.tall { height: 620px; }
     .map-viewport.compact { height: 340px; }
 
-    .modal {
-      align-items: center;
-      padding: 20px;
-    }
-    .panel {
-      border-radius: 22px;
-      padding: 28px;
-    }
+    .panel { padding: 30px 28px 26px; }
+    .spot-panel { min-height: 600px; max-height: 86vh; }
   }
 </style>
 </head>
@@ -1393,7 +1452,6 @@
       <h2 class="editorial-title" style="margin-bottom: 4px;">我的小巷漫游</h2>
       <p class="journey-header-stats" id="journeyStatsLine">0 个地点 · 参考 0.0 小时 · 示意 0.0 km</p>
 
-      <!-- 起终点卡片（图3） -->
       <div class="endpoint-card-box">
         <div class="endpoint-row" onclick="openEndpointModal('start')">
           <div class="endpoint-left">
@@ -1417,7 +1475,6 @@
         </div>
       </div>
 
-      <!-- 空状态（图12） -->
       <div class="journey-empty-state" id="journeyEmptyState">
         <h3 class="editorial-title" style="font-size: 24px;">先选几个喜欢的地方吧。</h3>
         <p class="editorial-sub">我的旅程 · 暂无地点</p>
@@ -1484,46 +1541,56 @@
   </button>
 </nav>
 
-<!-- ================= 弹窗 1：地点详情（图4 / 图11） ================= -->
-<div class="modal" id="spot-modal" onclick="backdropClose(event, 'spot-modal')">
-  <div class="panel">
-    <button class="modal-close" onclick="closeModals()">×</button>
-    <div class="detail-top">
-      <div>
-        <span class="section-eyebrow" id="spotModalEyebrow">SHOP / 文创购物</span>
-        <h3 class="detail-title" id="spotModalTitle">地点名称</h3>
-        <span class="tag-pill" id="spotModalSubTag">特色推荐</span>
-      </div>
-      <div class="detail-art" id="spotModalArt"></div>
+<!-- ================= 弹窗 1：景点居中大弹窗（全场景通用，严格对齐图11版式） ================= -->
+<div class="modal" id="spot-modal" onclick="backdropCloseSingle(event, 'spot-modal')">
+  <div class="panel spot-panel">
+    <button class="modal-close" onclick="closeModal('spot-modal')">×</button>
+    <div class="spot-modal-header">
+      <span class="spot-modal-eyebrow" id="spotModalEyebrow">CITY'S GOOD SHOPS / 古城美食</span>
+      <h3 class="spot-modal-title" id="spotModalTitle">街边小食</h3>
     </div>
-    <p class="detail-desc" id="spotModalDesc"></p>
-    <button class="btn-primary" id="spotActionBtn" onclick="toggleSpotSelection()">＋ 加入我的路线</button>
+
+    <div class="spot-modal-center-art" id="spotModalArt"></div>
+
+    <div class="spot-modal-content-box">
+      <span class="spot-modal-subbadge" id="spotModalSubTag">地道小吃</span>
+      <p class="spot-modal-desc" id="spotModalDesc"></p>
+      <div class="spot-modal-photos" id="spotModalPhotos"></div>
+    </div>
+
+    <div class="spot-modal-footer">
+      <button class="btn-primary" id="spotActionBtn" onclick="toggleSpotSelection()">加入我的路线</button>
+    </div>
   </div>
 </div>
 
-<!-- ================= 弹窗 2：萌宠详情（图10） ================= -->
-<div class="modal" id="pet-modal" onclick="backdropClose(event, 'pet-modal')">
-  <div class="panel">
-    <button class="modal-close" onclick="closeModals()">×</button>
-    <span class="section-eyebrow">CITY NEIGHBORS / 古城萌宠</span>
-    <h3 class="detail-title" id="petModalTitle" style="font-size: 22px;">小巷里的毛茸茸邻居</h3>
-    <div class="center-art-box">
+<!-- ================= 弹窗 2：萌宠居中大弹窗 ================= -->
+<div class="modal" id="pet-modal" onclick="backdropCloseSingle(event, 'pet-modal')">
+  <div class="panel spot-panel">
+    <button class="modal-close" onclick="closeModal('pet-modal')">×</button>
+    <div class="spot-modal-header">
+      <span class="spot-modal-eyebrow">CITY NEIGHBORS / 古城萌宠</span>
+      <h3 class="spot-modal-title" id="petModalTitle">小巷里的毛茸茸邻居</h3>
+    </div>
+
+    <div class="center-art-box" style="width: 200px; height: 150px; margin: 18px auto;">
       <img class="art-img" src="./assets/illu-cat.png" alt="古城萌宠" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="art-fallback" data-svg="cat"></div>
     </div>
-    <div class="pet-info-box" id="petModalDesc"></div>
-    <p class="editorial-title" style="font-size: 21px; margin: 0 0 10px;">请把温柔，也留在古城。</p>
+
+    <div class="pet-info-box" id="petModalDesc" style="flex: 1;"></div>
+    <p class="editorial-title" style="font-size: 21px; margin: 0 0 8px;">请把温柔，也留在古城。</p>
     <p style="font-size: 13px; color: var(--ink); margin: 0 0 18px; line-height: 1.7;">
-      轻声互动，不追赶，不随意抱起。<br>请勿随意投喂人类零食。
+      轻声互动，不追赶，不随意抱起。请勿随意投喂人类零食。
     </p>
-    <button class="btn-primary" onclick="closeModals()">回到探索地图</button>
+    <button class="btn-primary" onclick="closeModal('pet-modal')">回到探索地图</button>
   </div>
 </div>
 
-<!-- ================= 弹窗 3：推荐路线预览（图15） ================= -->
-<div class="modal" id="route-map-modal" onclick="backdropClose(event, 'route-map-modal')">
-  <div class="panel" style="max-width: 600px;">
-    <button class="modal-close" onclick="closeModals()">×</button>
+<!-- ================= 弹窗 3：推荐路线预览弹窗 ================= -->
+<div class="modal" id="route-map-modal" onclick="backdropCloseSingle(event, 'route-map-modal')">
+  <div class="panel" style="max-width: 580px;">
+    <button class="modal-close" onclick="closeModal('route-map-modal')">×</button>
     <span class="section-eyebrow">ROUTE PREVIEW / 可再次编辑</span>
     <h3 class="detail-title" id="rModalTitle" style="font-size: 22px; margin-bottom: 4px;">精选路线</h3>
     <div id="rModalMeta" style="font-size: 12px; color: var(--muted); margin-bottom: 12px;"></div>
@@ -1546,24 +1613,20 @@
     </div>
 
     <div id="rModalChain" style="font-size: 13px; color: var(--ink); margin: 12px 0 6px; line-height: 1.6;"></div>
-    <div id="pCardPreviewBox" style="background: var(--surface-soft); border-radius: 12px; padding: 10px 12px; font-size: 12px; color: var(--ink); margin-bottom: 10px;">
-      点击地图上的圆点可查看点位介绍
-    </div>
-    <div style="font-size: 12px; color: var(--muted); margin-bottom: 16px;">导入时保留已有自定义点位。</div>
+    <div style="font-size: 12px; color: var(--muted); margin-bottom: 16px;">点击地图圆点可打开景点详细介绍；导入时保留已有自定义点位。</div>
 
     <div class="grid-2">
-      <button class="btn-secondary" onclick="closeModals()">返回</button>
+      <button class="btn-secondary" onclick="closeModal('route-map-modal')">返回</button>
       <button class="btn-primary" id="rModalApplyBtn">加入我的路线</button>
     </div>
   </div>
 </div>
 
-<!-- ================= 弹窗 4：途中加点（图13 + 图5 + 图6） ================= -->
-<div class="modal" id="custom-modal" onclick="backdropClose(event, 'custom-modal')">
+<!-- ================= 弹窗 4：途中加点 ================= -->
+<div class="modal" id="custom-modal" onclick="backdropCloseSingle(event, 'custom-modal')">
   <div class="panel" style="max-width: 540px;">
-    <button class="modal-close" onclick="closeModals()">×</button>
+    <button class="modal-close" onclick="closeModal('custom-modal')">×</button>
 
-    <!-- Step 1: 方式选择（图13） -->
     <div id="customStep1">
       <span class="section-eyebrow">QUICK ADD / 即时加点</span>
       <h3 class="detail-title" style="font-size: 22px;">把偶遇加入旅程</h3>
@@ -1588,10 +1651,9 @@
       </div>
 
       <p style="font-size: 12px; color: var(--muted); margin: 14px 0 14px;">确认位置 → 输入名称 → 加入路线</p>
-      <button class="btn-secondary" onclick="closeModals()">返回我的旅程</button>
+      <button class="btn-secondary" onclick="closeModal('custom-modal')">返回我的旅程</button>
     </div>
 
-    <!-- Step 2: 地图标点（图5，支持放大缩小+拖拽微调） -->
     <div id="customStep2" style="display: none;">
       <span class="section-eyebrow">QUICK ADD / 途中加点</span>
       <h3 class="editorial-title" style="font-size: 24px; margin-bottom: 4px;">把偶遇，加入旅程。</h3>
@@ -1624,7 +1686,6 @@
       </div>
     </div>
 
-    <!-- Step 3: 地点命名（图6） -->
     <div id="customStep3" style="display: none;">
       <span class="section-eyebrow">QUICK ADD / 地点命名</span>
       <h3 class="editorial-title" style="font-size: 24px;">给这次偶遇，起个名字。</h3>
@@ -1650,10 +1711,10 @@
   </div>
 </div>
 
-<!-- ================= 弹窗 5：选择出发点/终点（图9） ================= -->
-<div class="modal" id="endpoint-choice-modal" onclick="backdropClose(event, 'endpoint-choice-modal')">
+<!-- ================= 弹窗 5：选择出发点/终点 ================= -->
+<div class="modal" id="endpoint-choice-modal" onclick="backdropCloseSingle(event, 'endpoint-choice-modal')">
   <div class="panel">
-    <button class="modal-close" onclick="closeModals()">×</button>
+    <button class="modal-close" onclick="closeModal('endpoint-choice-modal')">×</button>
     <span class="section-eyebrow">ENDPOINT / 起终点共用组件</span>
     <h3 class="detail-title" id="endpointChoiceTitle" style="font-size: 22px;">选择你的出发点</h3>
 
@@ -1679,14 +1740,14 @@
     <p style="font-size: 12px; color: var(--muted); margin: 14px 0;">
       下一步：地图点选 → 确认 → 更新旅程<br>起终点可更改、清除；未设置时显示占位。
     </p>
-    <button class="btn-secondary" onclick="closeModals()">取消</button>
+    <button class="btn-secondary" onclick="closeModal('endpoint-choice-modal')">取消</button>
   </div>
 </div>
 
-<!-- ================= 弹窗 6：门口与停车场地图点选（支持缩放） ================= -->
-<div class="modal" id="gate-picker-modal" onclick="backdropClose(event, 'gate-picker-modal')">
+<!-- ================= 弹窗 6：门口与停车场地图点选 ================= -->
+<div class="modal" id="gate-picker-modal" onclick="backdropCloseSingle(event, 'gate-picker-modal')">
   <div class="panel" style="max-width: 580px;">
-    <button class="modal-close" onclick="closeModals()">×</button>
+    <button class="modal-close" onclick="closeModal('gate-picker-modal')">×</button>
     <span class="section-eyebrow">ENDPOINT / 门口与停车场</span>
     <h3 class="detail-title" id="gatePickerModalTitle" style="font-size: 20px;">点击地图选择门口</h3>
     <p style="font-size: 12px; color: var(--muted); margin: 0 0 10px;">蓝色呼吸光标为您当前参考位置，点击任意门口或停车场标签直接确认。</p>
@@ -1708,15 +1769,15 @@
     </div>
 
     <div style="margin-top: 14px;">
-      <button class="btn-secondary" onclick="closeModals()">取消</button>
+      <button class="btn-secondary" onclick="closeModal('gate-picker-modal')">取消</button>
     </div>
   </div>
 </div>
 
-<!-- ================= 弹窗 7：已有景点地图点选（支持缩放） ================= -->
-<div class="modal" id="spot-picker-modal" onclick="backdropClose(event, 'spot-picker-modal')">
+<!-- ================= 弹窗 7：已有景点地图点选 ================= -->
+<div class="modal" id="spot-picker-modal" onclick="backdropCloseSingle(event, 'spot-picker-modal')">
   <div class="panel" style="max-width: 580px;">
-    <button class="modal-close" onclick="closeModals()">×</button>
+    <button class="modal-close" onclick="closeModal('spot-picker-modal')">×</button>
     <span class="section-eyebrow">ENDPOINT / 景点选择</span>
     <h3 class="detail-title" id="spotPickerModalTitle" style="font-size: 20px;">点击地图选择景点</h3>
     <p style="font-size: 12px; color: var(--muted); margin: 0 0 10px;">包含古城全部 32 处地点及您的自定义发现，双指或按钮可放大缩小地图。</p>
@@ -1738,21 +1799,21 @@
     </div>
 
     <div style="margin-top: 14px;">
-      <button class="btn-secondary" onclick="closeModals()">取消</button>
+      <button class="btn-secondary" onclick="closeModal('spot-picker-modal')">取消</button>
     </div>
   </div>
 </div>
 
-<!-- ================= 弹窗 8：漫游纪念地图（图8） ================= -->
-<div class="modal" id="poster-modal" onclick="backdropClose(event, 'poster-modal')">
+<!-- ================= 弹窗 8：漫游纪念地图 ================= -->
+<div class="modal" id="poster-modal" onclick="backdropCloseSingle(event, 'poster-modal')">
   <div class="panel" style="max-width: 480px;">
-    <button class="modal-close" onclick="closeModals()">×</button>
+    <button class="modal-close" onclick="closeModal('poster-modal')">×</button>
     <span class="section-eyebrow">SOUVENIR / 漫游纪念</span>
     <h3 class="editorial-title" style="font-size: 24px; margin-bottom: 4px;">把今天，留在南头。</h3>
     <img id="poster-preview" class="poster-preview-img" alt="南头漫游纪念地图">
     <p style="font-size: 12px; color: var(--muted); margin: 0 0 14px;">纪念卡自动汇总路线，长按图片也可保存。</p>
     <div class="grid-2">
-      <button class="btn-secondary" onclick="closeModals()">关闭</button>
+      <button class="btn-secondary" onclick="closeModal('poster-modal')">关闭</button>
       <a class="btn-primary" id="posterDownloadBtn" download="南头漫游纪念地图.png">保存纪念地图</a>
     </div>
   </div>
@@ -1772,12 +1833,12 @@ const colors = {
   gate: "#303E35"
 };
 const catLabels = {
-  study: "STUDY / 研学历史",
-  photo: "PHOTO / 街景拍照",
-  food: "FOOD / 古城美食",
-  shop: "SHOP / 文创购物",
-  custom: "CUSTOM / 我的发现",
-  gate: "GATE / 出入口"
+  study: "CITY'S HISTORY / 研学历史",
+  photo: "CITY'S VIEWS / 街景拍照",
+  food: "CITY'S GOOD SHOPS / 古城美食",
+  shop: "CITY'S GOOD SHOPS / 文创购物",
+  custom: "MY DISCOVERY / 我的发现",
+  gate: "CITY'S GATES / 古城出入口"
 };
 const catNames = { study: "研学", photo: "拍照", food: "美食", shop: "购物", custom: "自选", gate: "出入口" };
 
@@ -1844,14 +1905,12 @@ function renderArtHtml(assetKey, alt = "") {
   `;
 }
 
-// 初始化所有静态 SVG 兜底内容
 document.querySelectorAll("[data-svg]").forEach(el => {
   const key = el.getAttribute("data-svg");
   if (SVG_FALLBACKS[key]) el.innerHTML = SVG_FALLBACKS[key];
 });
 
 // ================= 2. 核心数据配置 =================
-// 主题细分偏好（对应图1）
 const subPrefMap = {
   shop: ["艺术手作", "旅行伴手礼", "平价淘杂货", "潮流穿搭"],
   food: ["地道小吃", "手冲咖啡", "甜品糖水", "微醺餐吧"],
@@ -1859,7 +1918,6 @@ const subPrefMap = {
   photo: ["南洋骑楼", "红砖花墙", "老巷光影", "古城夜景"]
 };
 
-// 保留全部 32 个景点坐标与属性，并补充细分偏好标签
 const spots = [
   ["01","南城门","study",12,24,"城门古墙"],["02","东城门遗址","study",25,14,"城门古墙"],["03","新安县衙","study",39,23,"明清遗迹"],["04","信国公文氏祠","study",52,15,"宗祠博物馆"],
   ["05","古城墙遗址","study",65,27,"城门古墙"],["06","南头古城博物馆","study",77,18,"宗祠博物馆"],["07","历史文化街区","study",86,35,"文化街区"],["08","古城广场","study",69,43,"文化街区"],
@@ -1966,7 +2024,7 @@ let currentEndpointTarget = "start";
 let cachedUserCoords = { x: 30, y: 40 };
 let pinCoord = { x: 50, y: 50 };
 
-// ================= 4. 地图缩放与拖拽控制器（底图+图标等比同步缩放） =================
+// ================= 4. 地图缩放与拖拽控制器 =================
 class InteractiveMapViewport {
   constructor(viewportId, stageId, options = {}) {
     this.viewport = document.getElementById(viewportId);
@@ -1987,7 +2045,6 @@ class InteractiveMapViewport {
   }
 
   _bindEvents() {
-    // 按钮控制
     const controls = this.viewport.querySelectorAll(".zoom-btn");
     controls.forEach(btn => {
       btn.addEventListener("pointerdown", e => e.stopPropagation());
@@ -2000,7 +2057,6 @@ class InteractiveMapViewport {
       });
     });
 
-    // 鼠标滚轮缩放
     this.viewport.addEventListener("wheel", e => {
       e.preventDefault();
       const rect = this.viewport.getBoundingClientRect();
@@ -2010,7 +2066,6 @@ class InteractiveMapViewport {
       this.zoomAt(mx, my, this.scale * factor);
     }, { passive: false });
 
-    // 指针拖拽与双指捏合
     this.viewport.addEventListener("pointerdown", e => {
       if (e.target.closest(".zoom-btn")) return;
       this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, startX: e.clientX, startY: e.clientY });
@@ -2056,7 +2111,6 @@ class InteractiveMapViewport {
 
     const endPointer = e => {
       if (this.pointers.has(e.pointerId)) {
-        const p = this.pointers.get(e.pointerId);
         this.pointers.delete(e.pointerId);
         if (this.pointers.size === 0 && !this.didDrag && this.options.onTap) {
           this.options.onTap(e.clientX, e.clientY, this.stage);
@@ -2067,7 +2121,6 @@ class InteractiveMapViewport {
     this.viewport.addEventListener("pointerup", endPointer);
     this.viewport.addEventListener("pointercancel", endPointer);
 
-    // 防止拖拽地图后误触节点 click
     this.viewport.addEventListener("click", e => {
       if (this.didDrag) {
         e.stopPropagation();
@@ -2191,7 +2244,7 @@ function generateRecommendations() {
     card.innerHTML = `
       <div class="route-card-top">
         <span class="route-card-tag">${r.tag}</span>
-        <span style="font-size:12px; color:var(--primary); font-weight:700;">预览路线 ↗</span>
+        <span style="font-size:12px; color:var(--primary); font-weight:600;">预览路线 ↗</span>
       </div>
       <div class="route-card-title">${r.title}</div>
       <div class="route-card-meta">约 2 小时 · ${r.spots.length} 个点位 · ${r.theme}主题</div>
@@ -2250,14 +2303,15 @@ function openRouteMapModal(routeData) {
 
   routeData.spots.forEach((s, idx) => {
     const n = document.createElement("div");
-    n.className = "node";
+    n.className = "node" + (selected.has(s[0]) ? " added" : "");
     n.style.left = s[3] + "%";
     n.style.top = s[4] + "%";
     n.style.background = colors[s[2]];
     n.textContent = idx + 1;
+    // 在推荐路线里点击景点，同样打开屏幕居中大弹窗
     n.onclick = e => {
       e.stopPropagation();
-      document.getElementById("pCardPreviewBox").innerHTML = `<strong>${s[0]} · ${s[1]}</strong>（${s[5]}）：${spotDescriptions[s[0]] || ""}`;
+      openSpotModal(s);
     };
     layer.appendChild(n);
 
@@ -2266,19 +2320,21 @@ function openRouteMapModal(routeData) {
     lbl.textContent = s[1];
     lbl.style.left = s[3] + "%";
     lbl.style.top = s[4] + "%";
+    lbl.onclick = e => {
+      e.stopPropagation();
+      openSpotModal(s);
+    };
     layer.appendChild(lbl);
   });
 
-  document.getElementById("pCardPreviewBox").innerHTML = `<strong>${routeData.spots[0][0]} · ${routeData.spots[0][1]}</strong>：${spotDescriptions[routeData.spots[0][0]]}`;
-
   document.getElementById("rModalApplyBtn").onclick = () => {
     selected.clear();
-    // 按图15要求：导入时保留已有自定义点位 customSpotsList
     routeData.spots.forEach(s => selected.add(s[0]));
     updateAll();
     closeModals();
     showToast(`已导入路线：${routeData.title}`);
-    switchTab("journey");
+    // 选完推荐路线后跳到大地图（探索地图），不再跳到我的旅程
+    switchTab("explore");
   };
 
   if (zoomControllers.preview) zoomControllers.preview.reset();
@@ -2395,6 +2451,10 @@ function renderExploreMap() {
     lbl.textContent = cs[1];
     lbl.style.left = cs[3] + "%";
     lbl.style.top = cs[4] + "%";
+    lbl.onclick = e => {
+      e.stopPropagation();
+      openSpotModal(cs);
+    };
     layer.appendChild(lbl);
   });
 }
@@ -2514,24 +2574,27 @@ function renderFacilities() {
   }
 }
 
-// ================= 8. 地点详情 & 萌宠弹窗 =================
+// ================= 8. 地点详情居中大弹窗 & 萌宠弹窗 =================
 function openSpotModal(s) {
   currentSpot = s;
   const type = s[2];
-  document.getElementById("spotModalEyebrow").textContent = catLabels[type] || "SPOT / 景点";
+  document.getElementById("spotModalEyebrow").textContent = catLabels[type] || "CITY'S GOOD SHOPS / 景点";
   document.getElementById("spotModalTitle").textContent = s[1];
   document.getElementById("spotModalSubTag").textContent = s[5] || catNames[type] || "推荐点位";
   document.getElementById("spotModalArt").innerHTML = renderArtHtml(type, s[1]);
 
   let desc = "";
-  if (type === "custom") desc = "您在漫游过程中自行标定添加的个性化偶遇地点。";
-  else if (type === "gate") desc = gateDescriptions[s[0]] || "南头古城主要交通出入口。";
-  else desc = spotDescriptions[s[0]] || "";
+  if (type === "custom") desc = "点位介绍：您在漫游过程中自行标定添加的个性化偶遇地点，后续可继续补充文字与现场照片。";
+  else if (type === "gate") desc = "出入口介绍：" + (gateDescriptions[s[0]] || "南头古城主要交通出入口。");
+  else desc = "点位示意资料：" + (spotDescriptions[s[0]] || "");
   document.getElementById("spotModalDesc").textContent = desc;
+
+  // 预留照片容器（后期若有实景图片数组可直接在此渲染）
+  document.getElementById("spotModalPhotos").innerHTML = "";
 
   const isSelected = type === "custom" ? customSpotsList.some(c => c[0] === s[0]) : selected.has(s[0]);
   const btn = document.getElementById("spotActionBtn");
-  btn.textContent = isSelected ? "✕ 从我的路线移除" : "＋ 加入我的路线";
+  btn.textContent = isSelected ? "从我的路线移除" : "加入我的路线";
   btn.className = isSelected ? "btn-secondary btn-danger-soft" : "btn-primary";
   openModal("spot-modal");
 }
@@ -2551,7 +2614,7 @@ function toggleSpotSelection() {
       showToast(`已加入路线：${currentSpot[1]}`);
     }
   }
-  closeModals();
+  closeModal("spot-modal");
   updateAll();
 }
 
@@ -2595,7 +2658,6 @@ function renderJourney() {
   const km = (count * 0.32).toFixed(1);
   document.getElementById("journeyStatsLine").textContent = `${count} 个地点 · 参考 ${hours} 小时 · 示意 ${km} km`;
 
-  // 更新起终点文字
   const startDisp = document.getElementById("startEndpointDisplay");
   const clearStart = document.getElementById("clearStartBtn");
   if (startEndpoint) {
@@ -2634,7 +2696,6 @@ function renderJourney() {
   emptyState.style.display = "none";
   mapStage.style.display = "block";
 
-  // 渲染地图路线
   const layer = document.getElementById("journey-nodes-layer");
   const svg = document.getElementById("journey-lines");
   layer.innerHTML = "";
@@ -2680,10 +2741,15 @@ function renderJourney() {
     lbl.textContent = s[1];
     lbl.style.left = s[3] + "%";
     lbl.style.top = s[4] + "%";
+    lbl.onclick = e => {
+      e.stopPropagation();
+      if (isStart) showToast(`起点：${s[1]}`);
+      else if (isEnd) showToast(`终点：${s[1]}`);
+      else openSpotModal(s);
+    };
     layer.appendChild(lbl);
   });
 
-  // 渲染底部途经清单（图3）
   stopListEl.innerHTML = "";
   waypoints.forEach((s, idx) => {
     const row = document.createElement("div");
@@ -2715,7 +2781,7 @@ function updateAll() {
   renderJourney();
 }
 
-// ================= 10. 起终点选择逻辑（图9 / 图12） =================
+// ================= 10. 起终点选择逻辑 =================
 function openEndpointModal(target) {
   currentEndpointTarget = target;
   document.getElementById("endpointGpsError").style.display = "none";
@@ -2862,7 +2928,6 @@ function fetchUserGPS(callback) {
         cachedUserCoords = { x: mapX, y: mapY };
         callback(cachedUserCoords, true);
       } else {
-        // 不在古城地理围栏内时，回退模拟坐标并提示
         callback(cachedUserCoords, true);
       }
     },
@@ -2871,7 +2936,7 @@ function fetchUserGPS(callback) {
   );
 }
 
-// ================= 11. 途中加点（自定义地点流程：图13 -> 图5 -> 图6） =================
+// ================= 11. 途中加点 =================
 function openCustomSpotModal() {
   resetCustomModal();
   openModal("custom-modal");
@@ -2983,13 +3048,12 @@ function confirmAddCustomSpot() {
   switchTab("journey");
 }
 
-// ================= 12. 生成纪念地图海报（图8） =================
+// ================= 12. 生成纪念地图海报 =================
 function drawPosterVector(ctx, fullRoute, tryBgImg) {
   const W = 720, H = 960;
   ctx.fillStyle = "#F7F5EE";
   ctx.fillRect(0, 0, W, H);
 
-  // 卡片底板
   ctx.fillStyle = "#FFFFFF";
   ctx.strokeStyle = "#E3E1D6";
   ctx.lineWidth = 2;
@@ -2997,18 +3061,17 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
 
   ctx.textAlign = "left";
   ctx.fillStyle = "#52694E";
-  ctx.font = "36px Georgia, serif";
+  ctx.font = '300 36px "Noto Serif SC", "Songti SC", Georgia, serif';
   ctx.fillText("南头漫游", 72, 108);
 
   ctx.fillStyle = "#7C8479";
-  ctx.font = "14px sans-serif";
+  ctx.font = '14px "Noto Sans SC", sans-serif';
   ctx.fillText("MY LITTLE NANTOU MEMORY", 72, 134);
 
   const mapX = 72, mapY = 166, mapW = W - 144, mapH = 480;
   ctx.fillStyle = "#EAE7D8";
   roundRect(ctx, mapX, mapY, mapW, mapH, 16, true, false);
 
-  // 若已上传 map-bg.png 且不触发跨域限制，则绘制手绘底图；否则绘制矢量古城轮廓
   let drewBg = false;
   if (tryBgImg) {
     const bgImg = document.querySelector("#explore-zoom-stage .map-art-layer img");
@@ -3036,13 +3099,12 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
   }
 
   ctx.fillStyle = "#6B7562";
-  ctx.font = "28px Georgia, serif";
+  ctx.font = '300 28px "Noto Serif SC", "Songti SC", Georgia, serif';
   ctx.fillText("南头古城", mapX + 26, mapY + 52);
   ctx.fillStyle = "#8A9282";
-  ctx.font = "11px sans-serif";
+  ctx.font = '11px "Noto Sans SC", sans-serif';
   ctx.fillText("NANTOU ANCIENT CITY", mapX + 26, mapY + 70);
 
-  // 路线连线
   ctx.save();
   ctx.beginPath();
   fullRoute.forEach((pt, i) => {
@@ -3057,7 +3119,6 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
   ctx.stroke();
   ctx.restore();
 
-  // 绘制点位与白底标签
   fullRoute.forEach((s, idx) => {
     const px = mapX + (s[3] / 100) * mapW;
     const py = mapY + (s[4] / 100) * mapH;
@@ -3070,11 +3131,11 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
     ctx.stroke();
 
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "bold 13px sans-serif";
+    ctx.font = 'bold 13px "Noto Sans SC", sans-serif';
     ctx.textAlign = "center";
     ctx.fillText(s[2] === "start" ? "起" : s[2] === "end" ? "终" : String(idx + 1), px, py + 4.5);
 
-    ctx.font = "12px sans-serif";
+    ctx.font = '12px "Noto Sans SC", sans-serif';
     const tw = Math.min(130, ctx.measureText(s[1]).width + 18);
     ctx.fillStyle = "rgba(255,255,255,0.95)";
     roundRect(ctx, px - tw / 2, py + 18, tw, 24, 6, true, false);
@@ -3082,29 +3143,27 @@ function drawPosterVector(ctx, fullRoute, tryBgImg) {
     ctx.fillText(s[1].slice(0, 9), px, py + 34);
   });
 
-  // 底部纪念文案
   ctx.textAlign = "left";
   ctx.fillStyle = "#303E35";
-  ctx.font = "bold 22px sans-serif";
+  ctx.font = 'bold 22px "Noto Sans SC", sans-serif';
   ctx.fillText(`今天，我在小巷里收集了 ${fullRoute.length} 次心动。`, 72, 706);
 
   ctx.fillStyle = "#7C8479";
-  ctx.font = "16px sans-serif";
+  ctx.font = '16px "Noto Sans SC", sans-serif';
   const chain = fullRoute.map(s => s[1]).join(" / ");
   ctx.fillText(chain.length > 34 ? chain.slice(0, 32) + "..." : chain, 72, 750);
 
   const now = new Date();
   const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
   ctx.fillStyle = "#9BA296";
-  ctx.font = "14px sans-serif";
+  ctx.font = '14px "Noto Sans SC", sans-serif';
   ctx.fillText(`计划路线纪念 · ${dateStr} · 南头漫游`, 72, 810);
 
-  // 红色印章
   ctx.strokeStyle = "#B75C42";
   ctx.lineWidth = 2.5;
   roundRect(ctx, W - 150, 760, 74, 74, 8, false, true);
   ctx.fillStyle = "#B75C42";
-  ctx.font = "bold 18px serif";
+  ctx.font = 'bold 18px "Noto Serif SC", serif';
   ctx.textAlign = "center";
   ctx.fillText("南头", W - 113, 792);
   ctx.fillText("漫游", W - 113, 818);
@@ -3136,7 +3195,6 @@ function generateSouvenirPoster() {
     drawPosterVector(ctx, fullRoute, true);
     dataURL = canvas.toDataURL("image/png");
   } catch (err) {
-    // 若在本地 file:// 下加载本地图片导致画布污染，自动回退纯矢量绘制确保可导出
     drawPosterVector(ctx, fullRoute, false);
     dataURL = canvas.toDataURL("image/png");
   }
@@ -3152,12 +3210,16 @@ function openModal(id) {
   document.getElementById(id).classList.add("open");
 }
 
+function closeModal(id) {
+  document.getElementById(id).classList.remove("open");
+}
+
 function closeModals() {
   document.querySelectorAll(".modal").forEach(m => m.classList.remove("open"));
 }
 
-function backdropClose(e, id) {
-  if (e.target.id === id) closeModals();
+function backdropCloseSingle(e, id) {
+  if (e.target.id === id) closeModal(id);
 }
 
 function showToast(msg) {
